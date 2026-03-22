@@ -69,7 +69,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-hei
 .stat-card.blue::before{background:linear-gradient(90deg,#1D4ED8,#3B82F6);}
 .stat-label{font-size:.75rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;
   color:var(--muted);font-family:var(--font-mono);margin-bottom:8px;}
-.stat-val{font-family:var(--font-head);font-size:1.9rem;font-weight:800;line-height:1;}
+.stat-val{font-family:var(--font-body);font-size:1.6rem;font-weight:700;line-height:1;}
 .stat-sub{font-size:.78rem;color:var(--muted);margin-top:6px;}
 
 /* SECTION HEADER */
@@ -169,6 +169,8 @@ tbody tr:hover td{background:var(--bg);}
 .btn-restore:hover{background:#BFDBFE;}
 #drop-zone.drag-over{border-color:var(--accent);background:#f0fdf4;transform:scale(1.01);}
 #drop-zone:hover{border-color:var(--accent-l);background:#f7fdf7;}
+#drop-zone-achats.drag-over,#drop-zone-ventes.drag-over{border-color:var(--accent);background:#f0fdf4;transform:scale(1.01);}
+#drop-zone-achats:hover,#drop-zone-ventes:hover{border-color:var(--accent-l);background:#f7fdf7;}
 
 @media print{
   .sidebar,.topbar,.btn,input,select,.modal-overlay,#drop-zone,.search-row{display:none!important;}
@@ -181,12 +183,138 @@ tbody tr:hover td{background:var(--bg);}
 }
 
 @media(max-width:1100px){.stat-grid{grid-template-columns:1fr 1fr;}}
-@media(max-width:768px){
-  .sidebar{width:60px;}.sidebar-logo .logo-mark span,.nav-section-label,
-  .nav-item span:not(.nav-icon){display:none;}
-  .main{margin-left:60px;}.content{padding:20px;}
-  .stat-grid{grid-template-columns:1fr 1fr;}
+
+/* ── TABLET (768px) ── */
+@media(max-width:900px){
   .report-grid{grid-template-columns:1fr;}
+  .contact-grid{grid-template-columns:1fr;}
+}
+
+/* ── MOBILE (640px) ── */
+@media(max-width:640px){
+  /* Hide sidebar on mobile */
+  .sidebar{ display:none !important; }
+  .main{ margin-left:0 !important; }
+
+  /* Topbar */
+  .topbar{ padding:12px 16px; }
+  .topbar-title{ font-size:1rem; }
+  .topbar-date{ display:none; }
+
+  /* Content padding */
+  .content{ padding:16px 14px 90px; }
+
+  /* Stat grid: 2 cols */
+  .stat-grid{ grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; }
+  .stat-card{ padding:14px 14px; }
+  .stat-val{ font-size:1.3rem; }
+  .stat-label{ font-size:.68rem; }
+  .stat-sub{ font-size:.7rem; }
+
+  /* Dashboard grid: stack */
+  #page-dashboard > div:last-child{ grid-template-columns:1fr !important; }
+
+  /* Section headers */
+  .section-hdr{ flex-wrap:wrap; gap:8px; }
+  .section-hdr h2{ font-size:.95rem; }
+  .section-hdr > div{ flex-wrap:wrap; gap:6px; }
+
+  /* Buttons smaller */
+  .btn{ padding:8px 14px; font-size:.8rem; }
+  .btn-sm{ padding:6px 10px; font-size:.74rem; }
+
+  /* Tables: horizontal scroll */
+  .table-wrap{ overflow-x:auto; -webkit-overflow-scrolling:touch; border-radius:12px; }
+  table{ min-width:500px; }
+  thead th{ padding:10px 12px; font-size:.65rem; }
+  tbody td{ padding:10px 12px; font-size:.82rem; }
+
+  /* Drop zones */
+  #drop-zone, #drop-zone-achats, #drop-zone-ventes{
+    padding:18px 12px;
+  }
+
+  /* Report grid: stack */
+  .report-grid{ grid-template-columns:1fr; gap:14px; }
+  .report-card{ padding:18px; }
+
+  /* Modals: full screen */
+  .modal-overlay{ padding:0; align-items:flex-end; }
+  .modal{
+    border-radius:20px 20px 0 0 !important;
+    max-width:100% !important;
+    max-height:92vh;
+    overflow-y:auto;
+  }
+  .modal-head{ padding:20px 20px 0; }
+  .modal-body{ padding:16px 20px 32px; }
+  .form-row{ grid-template-columns:1fr !important; }
+
+  /* Cloud screen */
+    border-radius:20px 20px 0 0;
+    max-height:92vh;
+    align-self:flex-end;
+    max-width:100% !important;
+  }
+    align-items:flex-end !important;
+  }
+
+  /* Search row */
+  .search-row{ margin-bottom:12px; }
+  .search-input{ font-size:.85rem; }
+
+  /* Trash tabs */
+  .trash-tab{ padding:8px 12px !important; font-size:.8rem !important; }
+
+  /* Bottom nav bar */
+  .bottom-nav{
+    display:flex !important;
+  }
+}
+
+/* Bottom nav bar — hidden on desktop, shown on mobile */
+.bottom-nav{
+  display:none;
+  position:fixed;
+  bottom:0; left:0; right:0;
+  background:var(--dark);
+  border-top:1px solid rgba(255,255,255,.08);
+  z-index:200;
+  padding:0;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.bottom-nav-item{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:3px;
+  padding:10px 4px;
+  background:none;
+  border:none;
+  cursor:pointer;
+  color:rgba(255,255,255,.4);
+  font-family:var(--font-body);
+  font-size:.6rem;
+  font-weight:600;
+  transition:color .2s;
+  position:relative;
+}
+.bottom-nav-item.active{ color:var(--accent-xl); }
+.bottom-nav-item .bn-icon{ font-size:1.2rem; line-height:1; }
+.bottom-nav-badge{
+  position:absolute;
+  top:6px; right:calc(50% - 16px);
+  background:var(--red);
+  color:#fff;
+  font-size:.55rem;
+  font-weight:700;
+  min-width:14px;
+  height:14px;
+  border-radius:50px;
+  display:flex;align-items:center;justify-content:center;
+  padding:0 3px;
 }
 </style>
 </head>
@@ -228,8 +356,55 @@ tbody tr:hover td{background:var(--bg);}
       <span class="nav-badge" id="badge-trash">0</span>
     </button>
   </nav>
-  <div class="sidebar-footer" id="sidebar-date"></div>
+  <div class="sidebar-footer" style="padding:12px;display:flex;flex-direction:column;gap:8px;">
+    <button onclick="showCloudScreen()" style="width:100%;background:rgba(107,191,97,.12);
+      border:1px solid rgba(107,191,97,.25);border-radius:10px;padding:10px 14px;color:#6BBF61;
+      font-family:var(--font-body);font-size:.82rem;font-weight:600;cursor:pointer;text-align:left;">
+      ☁ Configurer Cloud
+    </button>
+    <button onclick="logout()" id="logout-btn" style="display:none;width:100%;background:rgba(192,57,43,.15);
+      border:1px solid rgba(192,57,43,.3);border-radius:10px;padding:10px 14px;color:#f87171;
+      font-family:var(--font-body);font-size:.82rem;font-weight:600;cursor:pointer;
+      text-align:left;transition:background .2s;"
+      onmouseover="this.style.background='rgba(192,57,43,.25)'"
+      onmouseout="this.style.background='rgba(192,57,43,.15)'">
+      ⎋ Se déconnecter
+    </button>
+    <div id="sidebar-date" style="font-family:var(--font-mono);font-size:.7rem;color:rgba(255,255,255,.2);padding:4px 4px 0;"></div>
+  </div>
 </aside>
+
+<!-- BOTTOM NAV (mobile only) -->
+<nav class="bottom-nav" id="bottom-nav">
+  <button class="bottom-nav-item active" onclick="showPage('dashboard')" id="bn-dashboard">
+    <span class="bn-icon">▦</span>
+    <span>Home</span>
+  </button>
+  <button class="bottom-nav-item" onclick="showPage('products')" id="bn-products">
+    <span class="bn-icon">◉</span>
+    <span>Produits</span>
+    <span class="bottom-nav-badge" id="bn-badge-products" style="display:none"></span>
+  </button>
+  <button class="bottom-nav-item" onclick="showPage('achats')" id="bn-achats">
+    <span class="bn-icon">↓</span>
+    <span>Achats</span>
+    <span class="bottom-nav-badge" id="bn-badge-achats" style="display:none"></span>
+  </button>
+  <button class="bottom-nav-item" onclick="showPage('ventes')" id="bn-ventes">
+    <span class="bn-icon">↑</span>
+    <span>Ventes</span>
+    <span class="bottom-nav-badge" id="bn-badge-ventes" style="display:none"></span>
+  </button>
+  <button class="bottom-nav-item" onclick="showPage('stock')" id="bn-stock">
+    <span class="bn-icon">≡</span>
+    <span>Stock</span>
+  </button>
+  <button class="bottom-nav-item" onclick="showPage('trash')" id="bn-trash">
+    <span class="bn-icon">🗑</span>
+    <span>Corbeille</span>
+    <span class="bottom-nav-badge" id="bn-badge-trash" style="display:none"></span>
+  </button>
+</nav>
 
 <!-- MAIN -->
 <main class="main">
@@ -237,12 +412,66 @@ tbody tr:hover td{background:var(--bg);}
     <div class="topbar-title" id="page-title">Dashboard</div>
     <div class="topbar-right">
       <div class="topbar-date" id="topbar-date"></div>
+      <!-- Notification Bell -->
+      <div style="position:relative;">
+        <button id="notif-bell" onclick="toggleNotifPanel()" style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:7px 11px;cursor:pointer;font-size:1rem;position:relative;transition:all .2s;" title="Alertes stock">
+          🔔
+        </button>
+        <span id="notif-count" style="position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-size:.6rem;font-weight:700;min-width:16px;height:16px;border-radius:50px;display:none;align-items:center;justify-content:center;padding:0 3px;font-family:var(--font-mono);">0</span>
+      </div>
+      <button id="mobile-logout-btn" onclick="logout()" style="display:none;background:rgba(192,57,43,.12);border:1px solid rgba(192,57,43,.25);border-radius:8px;padding:7px 12px;color:#f87171;font-family:var(--font-body);font-size:.78rem;font-weight:600;cursor:pointer;">⎋</button>
+    </div>
+  </div>
+
+  <!-- NOTIFICATION PANEL -->
+  <div id="notif-panel" style="display:none;position:fixed;top:62px;right:20px;width:320px;max-height:400px;overflow-y:auto;
+    background:var(--white);border:1px solid var(--border);border-radius:16px;
+    box-shadow:0 12px 40px rgba(0,0,0,.15);z-index:400;">
+    <div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+      <div style="font-family:var(--font-head);font-weight:700;font-size:.92rem;">🔔 Alertes Stock</div>
+      <button onclick="toggleNotifPanel()" style="background:var(--bg2);border:none;border-radius:6px;padding:4px 8px;cursor:pointer;font-size:.8rem;">✕</button>
+    </div>
+    <div id="notif-list" style="padding:8px 0;"></div>
+    <div style="padding:10px 16px;border-top:1px solid var(--border);">
+      <label style="display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--muted);cursor:pointer;">
+        <input type="number" id="notif-threshold" min="0" max="99" value="3"
+          style="width:52px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-family:var(--font-mono);font-size:.82rem;outline:none;"
+          onchange="checkStockAlerts()"/>
+        Seuil d'alerte (unités)
+      </label>
     </div>
   </div>
   <div class="content">
 
     <!-- DASHBOARD -->
     <div class="page active" id="page-dashboard">
+
+      <!-- SUPABASE CONFIG CARD — shown when not connected -->
+      <div id="supabase-config-card" style="background:var(--white);border:2px solid var(--accent);border-radius:16px;padding:24px;margin-bottom:24px;">
+        <div style="font-family:var(--font-head);font-weight:700;font-size:1rem;margin-bottom:4px;color:var(--accent);">☁ Configurer Supabase — Sync Multi-Appareils</div>
+        <div style="font-size:.82rem;color:var(--muted);margin-bottom:16px;">Collez vos infos Supabase pour synchroniser vos données sur tous vos appareils.</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;">
+          <div>
+            <label style="font-size:.72rem;font-weight:700;color:var(--muted);font-family:var(--font-mono);letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:5px;">Project URL</label>
+            <input id="sb-url" type="text" placeholder="https://xxxx.supabase.co"
+              style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 13px;font-family:var(--font-mono);font-size:.8rem;color:var(--text);outline:none;"/>
+          </div>
+          <div>
+            <label style="font-size:.72rem;font-weight:700;color:var(--muted);font-family:var(--font-mono);letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:5px;">Anon Public Key</label>
+            <input id="sb-key" type="password" placeholder="eyJhbGci..."
+              style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 13px;font-family:var(--font-mono);font-size:.8rem;color:var(--text);outline:none;"
+              onkeydown="if(event.key==='Enter') connectSupabase()"/>
+          </div>
+          <button id="sb-connect-btn" onclick="connectSupabase()"
+            style="background:var(--accent);color:#fff;border:none;border-radius:10px;padding:10px 20px;font-family:var(--font-body);font-size:.88rem;font-weight:700;cursor:pointer;white-space:nowrap;">
+            ☁ Connecter
+          </button>
+        </div>
+        <div id="sb-status" style="display:none;margin-top:12px;border-radius:10px;padding:10px 14px;font-size:.83rem;line-height:1.5;"></div>
+        <div style="margin-top:10px;font-size:.75rem;color:var(--muted);">
+          Pas encore de compte ? <a href="https://supabase.com" target="_blank" style="color:var(--accent);font-weight:600;">supabase.com</a> → gratuit
+        </div>
+      </div>
       <div class="stat-grid">
         <div class="stat-card green">
           <div class="stat-label">Produits</div>
@@ -272,10 +501,26 @@ tbody tr:hover td{background:var(--bg);}
           <tbody id="low-stock-table"><tr><td colspan="3"><div class="empty"><div class="empty-icon">📦</div><p>Aucun stock faible</p></div></td></tr></tbody></table>
         </div>
         <div class="table-wrap">
-          <div style="padding:16px 18px;border-bottom:1px solid var(--border);font-family:var(--font-head);font-weight:700;font-size:.95rem;">Dernières ventes</div>
-          <table><thead><tr><th>Produit</th><th>Qté</th><th>Total</th></tr></thead>
-          <tbody id="recent-ventes"><tr><td colspan="3"><div class="empty"><div class="empty-icon">🛒</div><p>Aucune vente</p></div></td></tr></tbody></table>
+          <div style="padding:16px 18px;border-bottom:1px solid var(--border);font-family:var(--font-head);font-weight:700;font-size:.95rem;">Produits en rupture 🚫</div>
+          <table><thead><tr><th>Produit</th><th>Marque</th><th>Stock</th></tr></thead>
+          <tbody id="rupture-table"><tr><td colspan="3"><div class="empty"><div class="empty-icon">✅</div><p>Aucun produit en rupture</p></div></td></tr></tbody></table>
         </div>
+      </div>
+
+      <!-- TOP PRODUCTS -->
+      <div style="margin-top:20px;" class="table-wrap">
+        <div style="padding:16px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+          <div style="font-family:var(--font-head);font-weight:700;font-size:.95rem;">🏆 Top produits les plus vendus</div>
+          <div style="display:flex;gap:6px;">
+            <button onclick="setTopPeriod('all')"  id="top-btn-all"  class="btn btn-ghost btn-sm" style="background:var(--dark);color:#fff;">Tout</button>
+            <button onclick="setTopPeriod('month')" id="top-btn-month" class="btn btn-ghost btn-sm">Ce mois</button>
+            <button onclick="setTopPeriod('week')"  id="top-btn-week"  class="btn btn-ghost btn-sm">Cette semaine</button>
+          </div>
+        </div>
+        <table>
+          <thead><tr><th>#</th><th>Produit</th><th>Marque</th><th>Qté vendue</th><th>Chiffre d'affaires</th><th>% du total</th></tr></thead>
+          <tbody id="top-products-table"></tbody>
+        </table>
       </div>
     </div>
 
@@ -285,6 +530,7 @@ tbody tr:hover td{background:var(--bg);}
         <h2>Gestion des Produits</h2>
         <div style="display:flex;gap:10px;">
           <button class="btn btn-ghost" onclick="printSection('products')">🖨 Imprimer</button>
+          <button class="btn btn-danger" onclick="deleteAll('products')">🗑 Tout supprimer</button>
           <button class="btn btn-primary" onclick="openModal('modal-product')">+ Ajouter produit</button>
         </div>
       </div>
@@ -308,7 +554,7 @@ tbody tr:hover td{background:var(--bg);}
       </div>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Code</th><th>Article</th><th>Marque</th><th>Stock</th><th>Prix Achat</th><th>Prix Vente</th><th>Statut</th><th>Actions</th></tr></thead>
+          <thead><tr><th>Date</th><th>Code</th><th>Article</th><th>Marque</th><th>Stock</th><th>Prix Achat</th><th>Prix Vente</th><th>Statut</th><th>Actions</th></tr></thead>
           <tbody id="products-table"></tbody>
         </table>
       </div>
@@ -320,8 +566,21 @@ tbody tr:hover td{background:var(--bg);}
         <h2>Gestion des Achats</h2>
         <div style="display:flex;gap:10px;">
           <button class="btn btn-ghost" onclick="printSection('achats')">🖨 Imprimer</button>
+          <button class="btn btn-danger" onclick="deleteAll('achats')">🗑 Tout supprimer</button>
           <button class="btn btn-primary" onclick="openModal('modal-achat')">+ Enregistrer achat</button>
         </div>
+      </div>
+      <div id="drop-zone-achats"
+        ondragover="event.preventDefault();this.classList.add('drag-over')"
+        ondragleave="this.classList.remove('drag-over')"
+        ondrop="handleDropAchats(event)"
+        onclick="document.getElementById('excel-achats-input').click()"
+        style="border:2px dashed var(--border);border-radius:16px;padding:20px;text-align:center;
+               cursor:pointer;margin-bottom:20px;background:var(--white);transition:all .2s;">
+        <div style="font-size:1.8rem;margin-bottom:6px;">📥</div>
+        <div style="font-weight:700;margin-bottom:3px;">Glissez votre fichier Excel ici</div>
+        <div style="font-size:.82rem;color:var(--muted);">ou cliquez — colonnes : Date · Code · Quantité · Prix d'Achat</div>
+        <input type="file" id="excel-achats-input" accept=".xlsx,.xls" style="display:none" onchange="importAchatsFromExcel(this.files[0])"/>
       </div>
       <div class="search-row">
         <input class="search-input" placeholder="Rechercher..." oninput="filterTable('achats-table', this.value)"/>
@@ -340,8 +599,21 @@ tbody tr:hover td{background:var(--bg);}
         <h2>Gestion des Ventes</h2>
         <div style="display:flex;gap:10px;">
           <button class="btn btn-ghost" onclick="printSection('ventes')">🖨 Imprimer</button>
+          <button class="btn btn-danger" onclick="deleteAll('ventes')">🗑 Tout supprimer</button>
           <button class="btn btn-primary" onclick="openModal('modal-vente')">+ Enregistrer vente</button>
         </div>
+      </div>
+      <div id="drop-zone-ventes"
+        ondragover="event.preventDefault();this.classList.add('drag-over')"
+        ondragleave="this.classList.remove('drag-over')"
+        ondrop="handleDropVentes(event)"
+        onclick="document.getElementById('excel-ventes-input').click()"
+        style="border:2px dashed var(--border);border-radius:16px;padding:20px;text-align:center;
+               cursor:pointer;margin-bottom:20px;background:var(--white);transition:all .2s;">
+        <div style="font-size:1.8rem;margin-bottom:6px;">🛒</div>
+        <div style="font-weight:700;margin-bottom:3px;">Glissez votre fichier Excel ici</div>
+        <div style="font-size:.82rem;color:var(--muted);">ou cliquez — colonnes : Date · Code · Quantité · Prix de Vente</div>
+        <input type="file" id="excel-ventes-input" accept=".xlsx,.xls" style="display:none" onchange="importVentesFromExcel(this.files[0])"/>
       </div>
       <div class="search-row">
         <input class="search-input" placeholder="Rechercher..." oninput="filterTable('ventes-table', this.value)"/>
@@ -358,27 +630,91 @@ tbody tr:hover td{background:var(--bg);}
     <div class="page" id="page-stock">
       <div class="section-hdr">
         <h2>Stock & Rapports</h2>
-        <div style="display:flex;gap:10px;">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
           <button class="btn btn-ghost" onclick="printSection('stock')">🖨 Imprimer</button>
-          <button class="btn btn-ghost" onclick="renderStockReport()">↻ Actualiser</button>
+          <button class="btn btn-ghost" onclick="actualiserStock()">↻ Actualiser</button>
+          <button class="btn btn-ghost" onclick="exportData('excel')">⬇ Excel</button>
+          <button class="btn btn-ghost" onclick="exportData('json')">⬇ JSON</button>
+          <button class="btn btn-ghost" onclick="document.getElementById('import-backup-input').click()">⬆ Restaurer</button>
+          <input type="file" id="import-backup-input" accept=".json" style="display:none" onchange="importBackup(this)"/>
         </div>
       </div>
-      <div class="table-wrap" style="margin-bottom:24px;">
-        <div style="padding:16px 18px;border-bottom:1px solid var(--border);font-family:var(--font-head);font-weight:700;">Suivi du stock par produit</div>
-        <table>
-          <thead><tr><th>Code</th><th>Article</th><th>Marque</th><th>Stock Initial</th><th>Entrées</th><th>Sorties</th><th>Stock Actuel</th><th>Prix Achat</th><th>Prix Vente</th><th>Statut</th></tr></thead>
-          <tbody id="stock-table"></tbody>
-        </table>
-      </div>
-      <div class="report-grid">
+      <div class="report-grid" style="margin-bottom:24px;">
         <div class="report-card">
           <h3>📊 Résumé Financier</h3>
+          <div style="display:flex;gap:8px;align-items:center;margin-bottom:16px;flex-wrap:wrap;">
+            <div style="display:flex;flex-direction:column;gap:3px;flex:1;min-width:120px;">
+              <label style="font-size:.7rem;font-weight:700;color:var(--muted);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.5px;">Date début</label>
+              <input type="date" id="fin-date-start" onchange="renderFinancialReport()"
+                style="background:var(--bg);border:1px solid var(--border);border-radius:8px;
+                       padding:7px 10px;font-family:var(--font-body);font-size:.82rem;color:var(--text);outline:none;"/>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:3px;flex:1;min-width:120px;">
+              <label style="font-size:.7rem;font-weight:700;color:var(--muted);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.5px;">Date fin</label>
+              <input type="date" id="fin-date-end" onchange="renderFinancialReport()"
+                style="background:var(--bg);border:1px solid var(--border);border-radius:8px;
+                       padding:7px 10px;font-family:var(--font-body);font-size:.82rem;color:var(--text);outline:none;"/>
+            </div>
+            <button onclick="clearFinancialDates()" title="Réinitialiser"
+              style="align-self:flex-end;background:var(--bg2);border:1px solid var(--border);
+                     border-radius:8px;padding:7px 10px;cursor:pointer;font-size:.82rem;
+                     color:var(--muted);font-family:var(--font-body);transition:all .2s;"
+              onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">↺</button>
+          </div>
+          <div id="fin-period-label" style="font-size:.75rem;color:var(--muted);font-family:var(--font-mono);margin-bottom:12px;padding:5px 10px;background:var(--bg2);border-radius:6px;display:inline-block;">Période : Globale</div>
           <div id="financial-report"></div>
         </div>
         <div class="report-card">
           <h3>📦 Résumé Stock</h3>
           <div id="stock-summary"></div>
         </div>
+      </div>
+      <!-- CHARTS -->
+      <div style="margin-bottom:24px;">
+        <div style="font-family:var(--font-head);font-weight:700;font-size:1rem;margin-bottom:16px;">📈 Graphiques</div>
+        <div class="report-grid">
+          <div class="report-card">
+            <h3>📈 Ventes par mois</h3>
+            <canvas id="chart-ventes-month" height="220"></canvas>
+          </div>
+          <div class="report-card">
+            <h3>📉 Achats par mois</h3>
+            <canvas id="chart-achats-month" height="220"></canvas>
+          </div>
+          <div class="report-card">
+            <h3>📦 Stock actuel par produit</h3>
+            <canvas id="chart-stock" height="220"></canvas>
+          </div>
+          <div class="report-card">
+            <h3>🥧 Répartition des ventes</h3>
+            <canvas id="chart-pie" height="220"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMPARAISON -->
+      <div id="cmp-section" class="report-card" style="margin-bottom:24px;">
+        <h3>🔄 Comparaison de périodes</h3>
+        <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:end;margin-bottom:16px;">
+          <div><div style="font-size:.72rem;font-weight:700;color:var(--accent);font-family:var(--font-mono);letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px;">Période A</div><div style="display:flex;gap:6px;"><input type="date" id="cmp-a-start" style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:7px 8px;font-family:var(--font-body);font-size:.8rem;outline:none;color:var(--text);"/><input type="date" id="cmp-a-end" style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:7px 8px;font-family:var(--font-body);font-size:.8rem;outline:none;color:var(--text);"/></div></div>
+          <div style="text-align:center;font-family:var(--font-head);font-weight:800;font-size:1.1rem;color:var(--muted);padding-bottom:8px;">VS</div>
+          <div><div style="font-size:.72rem;font-weight:700;color:#1D4ED8;font-family:var(--font-mono);letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px;">Période B</div><div style="display:flex;gap:6px;"><input type="date" id="cmp-b-start" style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:7px 8px;font-family:var(--font-body);font-size:.8rem;outline:none;color:var(--text);"/><input type="date" id="cmp-b-end" style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:7px 8px;font-family:var(--font-body);font-size:.8rem;outline:none;color:var(--text);"/></div></div>
+        </div>
+        <div style="display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;">
+          <button class="btn btn-ghost btn-sm" onclick="setCmpPreset('thisVsLast')">Ce mois vs mois dernier</button>
+          <button class="btn btn-ghost btn-sm" onclick="setCmpPreset('last2months')">2 derniers mois</button>
+          <button class="btn btn-ghost btn-sm" onclick="setCmpPreset('last2weeks')">2 dernières semaines</button>
+          <button class="btn btn-primary btn-sm" onclick="renderComparison()">Comparer →</button>
+        </div>
+        <div id="comparison-result"></div>
+      </div>
+
+      <div class="table-wrap">
+        <div style="padding:16px 18px;border-bottom:1px solid var(--border);font-family:var(--font-head);font-weight:700;">Suivi du stock par produit</div>
+        <table>
+          <thead><tr><th>Date</th><th>Code</th><th>Article</th><th>Marque</th><th>Stock Initial</th><th>Entrées</th><th>Sorties</th><th>Stock Actuel</th><th>Prix Achat</th><th>Prix Vente</th><th>Statut</th></tr></thead>
+          <tbody id="stock-table"></tbody>
+        </table>
       </div>
     </div>
 
@@ -428,7 +764,12 @@ tbody tr:hover td{background:var(--bg);}
       <div class="form-row">
         <div class="form-group">
           <label>Code Article</label>
-          <input type="text" id="p-code" placeholder="ex: RDNE550S"/>
+          <div style="display:flex;gap:6px;">
+            <input type="text" id="p-code" placeholder="ex: RDNE550S" style="flex:1;"/>
+            <button type="button" onclick="openBarcode('product')" title="Scanner"
+              style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:0 12px;cursor:pointer;font-size:1.1rem;flex-shrink:0;"
+              onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">📷</button>
+          </div>
         </div>
         <div class="form-group">
           <label>Marque</label>
@@ -445,17 +786,21 @@ tbody tr:hover td{background:var(--bg);}
           <input type="number" id="p-stock" placeholder="0" min="0"/>
         </div>
         <div class="form-group">
-          <label>Icône (emoji)</label>
-          <input type="text" id="p-icon" placeholder="🧊"/>
+          <label>Date d'ajout</label>
+          <input type="date" id="p-date"/>
         </div>
+      </div>
+      <div class="form-group">
+        <label>Icône (emoji)</label>
+        <input type="text" id="p-icon" placeholder="🧊"/>
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label>Prix d'Achat (DA)</label>
+          <label>Prix d'Achat (DT)</label>
           <input type="number" id="p-prix-achat" placeholder="0" min="0"/>
         </div>
         <div class="form-group">
-          <label>Prix de Vente (DA)</label>
+          <label>Prix de Vente (DT)</label>
           <input type="number" id="p-prix-vente" placeholder="0" min="0"/>
         </div>
       </div>
@@ -483,9 +828,14 @@ tbody tr:hover td{background:var(--bg);}
         </div>
         <div class="form-group">
           <label>Produit</label>
-          <select id="a-product" onchange="fillAchatProduct()">
-            <option value="">-- Choisir --</option>
-          </select>
+          <div style="display:flex;gap:6px;">
+            <select id="a-product" onchange="fillAchatProduct()" style="flex:1;">
+              <option value="">-- Choisir --</option>
+            </select>
+            <button type="button" onclick="openBarcode('achat')" title="Scanner un code-barres"
+              style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:0 12px;cursor:pointer;font-size:1.1rem;flex-shrink:0;transition:all .2s;"
+              onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">📷</button>
+          </div>
         </div>
       </div>
       <div class="form-row">
@@ -494,12 +844,12 @@ tbody tr:hover td{background:var(--bg);}
           <input type="number" id="a-qty" placeholder="1" min="1" oninput="calcAchatTotal()"/>
         </div>
         <div class="form-group">
-          <label>Prix d'Achat (DA)</label>
+          <label>Prix d'Achat (DT)</label>
           <input type="number" id="a-prix" placeholder="0" oninput="calcAchatTotal()"/>
         </div>
       </div>
       <div class="form-group">
-        <label>Total (DA)</label>
+        <label>Total (DT)</label>
         <input type="number" id="a-total" placeholder="0" readonly style="background:var(--bg3);"/>
       </div>
       <div class="modal-actions">
@@ -526,9 +876,14 @@ tbody tr:hover td{background:var(--bg);}
         </div>
         <div class="form-group">
           <label>Produit</label>
-          <select id="v-product" onchange="fillVenteProduct()">
-            <option value="">-- Choisir --</option>
-          </select>
+          <div style="display:flex;gap:6px;">
+            <select id="v-product" onchange="fillVenteProduct()" style="flex:1;">
+              <option value="">-- Choisir --</option>
+            </select>
+            <button type="button" onclick="openBarcode('vente')" title="Scanner un code-barres"
+              style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:0 12px;cursor:pointer;font-size:1.1rem;flex-shrink:0;transition:all .2s;"
+              onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">📷</button>
+          </div>
         </div>
       </div>
       <div class="form-row">
@@ -537,12 +892,12 @@ tbody tr:hover td{background:var(--bg);}
           <input type="number" id="v-qty" placeholder="1" min="1" oninput="calcVenteTotal()"/>
         </div>
         <div class="form-group">
-          <label>Prix de Vente (DA)</label>
+          <label>Prix de Vente (DT)</label>
           <input type="number" id="v-prix" placeholder="0" oninput="calcVenteTotal()"/>
         </div>
       </div>
       <div class="form-group">
-        <label>Total (DA)</label>
+        <label>Total (DT)</label>
         <input type="number" id="v-total" placeholder="0" readonly style="background:var(--bg3);"/>
       </div>
       <div class="modal-actions">
@@ -553,42 +908,273 @@ tbody tr:hover td{background:var(--bg);}
   </div>
 </div>
 
+<!-- MODAL: BARCODE SCANNER -->
+<div class="modal-overlay" id="modal-barcode" onclick="if(event.target===this) closeBarcode()">
+  <div class="modal" style="max-width:420px;">
+    <div class="modal-head">
+      <h3>📷 Scanner un code-barres</h3>
+      <button class="modal-close" onclick="closeBarcode()">✕</button>
+    </div>
+    <div class="modal-body">
+      <!-- Camera view -->
+      <div id="barcode-reader" style="width:100%;border-radius:12px;overflow:hidden;background:#000;min-height:200px;"></div>
+      <!-- Manual entry fallback -->
+      <div style="margin-top:16px;">
+        <label style="font-size:.75rem;font-weight:700;color:var(--muted);font-family:var(--font-mono);letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:6px;">Ou entrez le code manuellement</label>
+        <div style="display:flex;gap:8px;">
+          <input type="text" id="barcode-manual" placeholder="ex: 6191234567890"
+            style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-family:var(--font-mono);font-size:.9rem;color:var(--text);outline:none;"
+            onkeydown="if(event.key==='Enter') applyManualBarcode()"/>
+          <button class="btn btn-primary" onclick="applyManualBarcode()">→</button>
+        </div>
+      </div>
+      <div id="barcode-status" style="display:none;margin-top:12px;border-radius:10px;padding:10px 14px;font-size:.83rem;"></div>
+    </div>
+  </div>
+</div>
+
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
+
+<style>
+.cloud-badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--font-mono);
+  font-size:.7rem;padding:5px 12px;border-radius:8px;border:1px solid var(--border);cursor:pointer;transition:all .2s;}
+.cloud-badge.online{background:#dcfce7;border-color:#bbf7d0;color:#166534;}
+.cloud-badge.loading{background:#fef9c3;border-color:#fde68a;color:#854d0e;}
+.cloud-badge.local{background:var(--bg2);color:var(--muted);}
+</style>
+
 <script>
-// ── DB (localStorage) ──────────────────────────────────────────────
+// ── SUPABASE CLOUD ────────────────────────────────────────────────
+const CLOUD_KEY = 'sb_config';
+let useCloud = false, sbUrl = '', sbKey = '', cloudBinId = 'store';
+
+const KEYS = ['products','achats','ventes','trash_products','trash_achats','trash_ventes'];
+
+// ── LOCAL DB ──────────────────────────────────────────────────────
 const DB = {
-  get: k => JSON.parse(localStorage.getItem(k) || '[]'),
-  set: (k, v) => localStorage.setItem(k, JSON.stringify(v)),
+  get: k => { try{ return JSON.parse(localStorage.getItem(k)||'[]'); }catch(e){return [];} },
+  set: (k,v) => {
+    try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){}
+    if(useCloud) setTimeout(()=>sbPush(k,v).catch(()=>{}), 100);
+  },
 };
 
 function getProducts(){ return DB.get('products'); }
-function getAchats(){ return DB.get('achats'); }
-function getVentes(){ return DB.get('ventes'); }
+function getAchats()  { return DB.get('achats'); }
+function getVentes()  { return DB.get('ventes'); }
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+function getSavedAuth(){ try{return JSON.parse(localStorage.getItem(CLOUD_KEY)||'null');}catch(e){return null;} }
+function saveAuth(o){ localStorage.setItem(CLOUD_KEY,JSON.stringify(o)); }
+function getAllLocal(){ const o={}; KEYS.forEach(k=>o[k]=DB.get(k)); return o; }
 
-function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+// ── SUPABASE API ──────────────────────────────────────────────────
+// We use a single row in a 'store' table with all data as JSON
+async function sbReq(path, method='GET', body=null){
+  const h = {
+    'Content-Type': 'application/json',
+    'apikey': sbKey,
+    'Authorization': 'Bearer '+sbKey,
+    'Prefer': method==='POST' ? 'resolution=merge-duplicates,return=minimal' : 'return=minimal'
+  };
+  const opts = {method, headers:h};
+  if(body) opts.body = JSON.stringify(body);
+  const r = await fetch(sbUrl+'/rest/v1/'+path, opts);
+  if(method==='GET' && r.ok){
+    const t = await r.text();
+    try{ return JSON.parse(t); }catch(e){ return []; }
+  }
+  return {ok:r.ok, status:r.status};
+}
 
-// ── SEED with Excel data if empty ──────────────────────────────────
+// Push one key to Supabase
+async function sbPush(key, value){
+  if(!useCloud) return;
+  await sbReq('store?on_conflict=key', 'POST', {key, value: JSON.stringify(value)});
+}
+
+// Push all local data to Supabase
+async function sbPushAll(){
+  if(!useCloud) return;
+  const rows = KEYS.map(k=>({key:k, value: JSON.stringify(DB.get(k))}));
+  await sbReq('store?on_conflict=key', 'POST', rows);
+}
+
+// Pull all data from Supabase
+async function sbPull(){
+  const rows = await sbReq('store?select=key,value');
+  if(!Array.isArray(rows)) throw new Error('Pull failed');
+  rows.forEach(row=>{
+    try{
+      const parsed = JSON.parse(row.value);
+      if(Array.isArray(parsed) && parsed.length > 0){
+        localStorage.setItem(row.key, JSON.stringify(parsed));
+      }
+    }catch(e){}
+  });
+}
+
+// Create the store table if it doesn't exist via RPC — or check connection
+async function sbInit(){
+  // Test connection by fetching store table
+  const r = await fetch(sbUrl+'/rest/v1/store?select=key&limit=1', {
+    headers:{'apikey':sbKey,'Authorization':'Bearer '+sbKey}
+  });
+  if(r.status === 404 || r.status === 400){
+    throw new Error('Table "store" introuvable. Voir instructions ci-dessous.');
+  }
+  if(r.status === 401 || r.status === 403){
+    throw new Error('Clé API incorrecte.');
+  }
+  if(!r.ok) throw new Error('Connexion échouée ('+r.status+')');
+  return true;
+}
+
+// ── CONNECT ───────────────────────────────────────────────────────
+async function connectSupabase(){
+  const urlEl = document.getElementById('sb-url');
+  const keyEl = document.getElementById('sb-key');
+  const statusEl = document.getElementById('sb-status');
+  const btn = document.getElementById('sb-connect-btn');
+
+  const url = urlEl ? urlEl.value.trim().replace(/\/$/,'') : '';
+  const key = keyEl ? keyEl.value.trim() : '';
+
+  const showStatus = (msg, type) => {
+    if(!statusEl) return;
+    const colors = {
+      error:  'background:#fee2e2;border:1px solid #fecaca;color:#991b1b;',
+      loading:'background:#fefce8;border:1px solid #fde68a;color:#854d0e;',
+      success:'background:#dcfce7;border:1px solid #bbf7d0;color:#166534;',
+    };
+    statusEl.style.cssText = 'display:block;border-radius:10px;padding:10px 14px;font-size:.83rem;line-height:1.6;'+(colors[type]||colors.error);
+    statusEl.innerHTML = msg;
+  };
+
+  if(!url){ showStatus('⚠ Entrez le Project URL.','error'); return; }
+  if(!key){ showStatus('⚠ Entrez l\'Anon Public Key.','error'); return; }
+
+  if(btn){ btn.disabled=true; btn.textContent='↻ Connexion...'; btn.style.opacity='.65'; }
+  showStatus('⏳ Connexion à Supabase...','loading');
+
+  sbUrl = url;
+  sbKey = key;
+
+  try{
+    // Test connection
+    const testR = await fetch(sbUrl+'/rest/v1/store?select=key&limit=1', {
+      headers:{'apikey':sbKey,'Authorization':'Bearer '+sbKey}
+    });
+
+    if(testR.status===401||testR.status===403){
+      throw new Error('Clé API incorrecte — vérifiez l\'Anon Public Key.');
+    }
+    if(testR.status===404||testR.status===400){
+      throw new Error('TABLE_MISSING');
+    }
+    if(!testR.ok){
+      throw new Error('Erreur de connexion ('+testR.status+') — vérifiez le Project URL.');
+    }
+
+    showStatus('⏳ Synchronisation...','loading');
+
+    // Pull from cloud first
+    await sbPull();
+
+    // Push local data up
+    await sbPushAll();
+
+    // Save credentials
+    saveAuth({url, key});
+    useCloud = true;
+    setBadge('online');
+
+    showStatus('✓ Connecté avec succès !','success');
+
+    const card = document.getElementById('supabase-config-card');
+    if(card) card.style.display = 'none';
+
+    startAutoSync();
+    renderDashboard();
+    updateBadges();
+    showToast('☁ Supabase connecté ✓');
+
+  } catch(e){
+    let msg = e.message||'Erreur inconnue';
+    if(msg==='TABLE_MISSING'){
+      msg = `Table "store" introuvable.<br/><br/>
+      <strong>Dans Supabase → SQL Editor, exécutez :</strong><br/>
+      <code style="display:block;background:#f1f5f9;padding:8px;border-radius:6px;margin-top:6px;font-size:.75rem;white-space:pre;">
+create table store (key text primary key, value text);
+alter table store enable row level security;
+create policy "allow all" on store for all using (true) with check (true);</code>`;
+    }
+    showStatus('⚠ '+msg,'error');
+    if(btn){ btn.disabled=false; btn.textContent='☁ Connecter'; btn.style.opacity='1'; }
+    sbUrl=''; sbKey='';
+  }
+}
+
+function setSbStatus(msg, type='loading'){
+  const el = document.getElementById('sb-status');
+  if(!el) return;
+  const s = {
+    loading:'background:#fefce8;border:1px solid #fde68a;color:#854d0e;',
+    success:'background:#dcfce7;border:1px solid #bbf7d0;color:#166534;',
+    error:  'background:#fee2e2;border:1px solid #fecaca;color:#991b1b;',
+  };
+  el.style.cssText='display:block;border-radius:10px;padding:11px 14px;font-size:.83rem;line-height:1.6;'+(s[type]||s.loading);
+  el.innerHTML=msg;
+}
+
+function skipCloud(){
+  const card = document.getElementById('supabase-config-card');
+  if(card) card.style.display='none';
+  if(!getSavedAuth()) saveAuth({local:true});
+  launchApp();
+}
+
+function setBadge(state){
+  const b=document.getElementById('cloud-badge'); if(!b) return;
+  b.className='cloud-badge '+state;
+  const a=getSavedAuth();
+  b.innerHTML=state==='online'?'☁ Supabase':state==='loading'?'↻ Sync...':'💾 Local';
+  const lb=document.getElementById('logout-btn');
+  if(lb) lb.style.display=state==='online'?'block':'none';
+  const mlb=document.getElementById('mobile-logout-btn');
+  if(mlb) mlb.style.display=state==='online'?'block':'none';
+}
+
+function showCloudScreen(){
+  const card = document.getElementById('supabase-config-card');
+  if(card) card.style.display = 'block';
+  showPage('dashboard');
+  const a = getSavedAuth();
+  if(a?.url) document.getElementById('sb-url').value = a.url;
+  if(a?.key) document.getElementById('sb-key').value = a.key;
+}
+
+function logout(){
+  if(!confirm('Se déconnecter ?')) return;
+  localStorage.removeItem(CLOUD_KEY);
+  useCloud=false; sbUrl=''; sbKey='';
+  if(autoSyncInterval){ clearInterval(autoSyncInterval); autoSyncInterval=null; }
+  setTimeout(()=>location.reload(), 300);
+}
+
+let autoSyncInterval=null;
+function startAutoSync(){
+  if(autoSyncInterval) clearInterval(autoSyncInterval);
+  autoSyncInterval=setInterval(async()=>{
+    if(!useCloud) return;
+    try{ await sbPushAll(); }catch(e){}
+  }, 45000);
+}
+
+// ── SEED DATA ─────────────────────────────────────────────────────
 function seedData(){
-  if(getProducts().length > 0) return;
-  const products = [
-    {id:uid(), code:'RDNE550S', article:'Réfrigérateur', marque:'beKo', stock:10, prixAchat:1530, prixVente:1720, icon:'🧊'},
-    {id:uid(), code:'BDE6210BK', article:'Télévision', marque:'Brandt', stock:2, prixAchat:0, prixVente:0, icon:'📺'},
-    {id:uid(), code:'CRD45V4', article:'Four', marque:'Condor', stock:2, prixAchat:1530, prixVente:1720, icon:'🍳'},
-  ];
-  DB.set('products', products);
-
-  const p0 = products[0].id;
-  const achats = [
-    {id:uid(), date:'2026-03-14', productId:p0, code:'RDNE550S', article:'Réfrigérateur', marque:'beKo', qty:2, prix:1530, total:3060},
-  ];
-  DB.set('achats', achats);
-
-  const ventes = [
-    {id:uid(), date:'2026-03-15', productId:p0, code:'RDNE550S', article:'Réfrigérateur', marque:'beKo', qty:10, prix:1720, total:17200},
-  ];
-  DB.set('ventes', ventes);
+  // No default data — start empty
 }
 
 // ── NAVIGATION ─────────────────────────────────────────────────────
@@ -596,9 +1182,12 @@ const pageTitles = {dashboard:'Dashboard',products:'Produits',achats:'Achats',ve
 function showPage(name){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.bottom-nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('page-'+name).classList.add('active');
   const navBtn = document.querySelector(`[onclick="showPage('${name}')"]`);
   if(navBtn) navBtn.classList.add('active');
+  const bnBtn = document.getElementById('bn-'+name);
+  if(bnBtn) bnBtn.classList.add('active');
   document.getElementById('page-title').textContent = pageTitles[name]||name;
   renderPage(name);
 }
@@ -608,7 +1197,7 @@ function renderPage(name){
   else if(name==='products') renderProducts();
   else if(name==='achats') renderAchats();
   else if(name==='ventes') renderVentes();
-  else if(name==='stock') renderStockReport();
+  else if(name==='stock'){ renderStockReport(); }
   else if(name==='trash'){ renderTrash(); }
   updateBadges();
 }
@@ -638,34 +1227,117 @@ function renderDashboard(){
 
   // Low stock
   const lowTbody = document.getElementById('low-stock-table');
-  const low = products.filter(p=>getStockForProduct(p.id,p.stock)<=2);
+  const low = products.filter(p=>{ const s=getStockForProduct(p.id,p.stock); return s>0 && s<3; });
   if(low.length===0){
     lowTbody.innerHTML=`<tr><td colspan="3"><div class="empty"><div class="empty-icon">✅</div><p>Stock suffisant</p></div></td></tr>`;
   } else {
     lowTbody.innerHTML = low.map(p=>`<tr>
       <td>${p.icon||'📦'} ${p.article}</td>
       <td><span class="code">${p.marque}</span></td>
-      <td><span class="badge badge-${getStockForProduct(p.id,p.stock)===0?'red':'amber'}">${getStockForProduct(p.id,p.stock)} u.</span></td>
+      <td><span class="badge badge-amber">${getStockForProduct(p.id,p.stock)} u.</span></td>
     </tr>`).join('');
   }
 
-  // Recent ventes
-  const recentTbody = document.getElementById('recent-ventes');
-  const recent = [...ventes].reverse().slice(0,5);
-  if(recent.length===0){
-    recentTbody.innerHTML=`<tr><td colspan="3"><div class="empty"><div class="empty-icon">🛒</div><p>Aucune vente</p></div></td></tr>`;
+  // Produits en rupture (stock = 0)
+  const ruptureTbody = document.getElementById('rupture-table');
+  const rupture = [...products].sort((a,b)=>a.article.localeCompare(b.article,'fr'))
+    .filter(p=>getStockForProduct(p.id,p.stock)===0);
+  if(rupture.length===0){
+    ruptureTbody.innerHTML=`<tr><td colspan="3"><div class="empty"><div class="empty-icon">✅</div><p>Aucun produit en rupture</p></div></td></tr>`;
   } else {
-    recentTbody.innerHTML = recent.map(v=>`<tr>
-      <td>${v.article}</td>
-      <td>${v.qty}</td>
-      <td class="profit-positive">${fmt(v.total)} DT</td>
+    ruptureTbody.innerHTML = rupture.map(p=>`<tr>
+      <td>${p.icon||'📦'} ${p.article}</td>
+      <td><span class="code">${p.marque}</span></td>
+      <td><span class="badge badge-red">Rupture</span></td>
     </tr>`).join('');
   }
+
+  // Top products
+  renderTopProducts();
+
+  // Check alerts
+  checkStockAlerts();
+}
+
+// ── TOP PRODUCTS ──────────────────────────────────────────────────
+let topPeriod = 'all';
+
+function setTopPeriod(period){
+  topPeriod = period;
+  ['all','month','week'].forEach(p=>{
+    const btn = document.getElementById('top-btn-'+p);
+    if(btn){ btn.style.background = p===period?'var(--dark)':''; btn.style.color = p===period?'#fff':''; }
+  });
+  renderTopProducts();
+}
+
+function renderTopProducts(){
+  const tbody = document.getElementById('top-products-table');
+  if(!tbody) return;
+  const products = getProducts();
+  if(products.length===0){
+    tbody.innerHTML=`<tr><td colspan="6"><div class="empty"><div class="empty-icon">🏆</div><p>Aucune vente enregistrée.</p></div></td></tr>`;
+    return;
+  }
+
+  // Filter ventes by period
+  const now = new Date();
+  const ventes = getVentes().filter(v=>{
+    if(topPeriod==='all') return true;
+    if(!v.date) return false;
+    const d = new Date(v.date);
+    if(topPeriod==='month') return d.getMonth()===now.getMonth() && d.getFullYear()===now.getFullYear();
+    if(topPeriod==='week'){
+      const startOfWeek = new Date(now); startOfWeek.setDate(now.getDate()-now.getDay());
+      startOfWeek.setHours(0,0,0,0);
+      return d >= startOfWeek;
+    }
+    return true;
+  });
+
+  if(ventes.length===0){
+    tbody.innerHTML=`<tr><td colspan="6"><div class="empty"><div class="empty-icon">📊</div><p>Aucune vente sur cette période.</p></div></td></tr>`;
+    return;
+  }
+
+  // Aggregate by product
+  const map = {};
+  ventes.forEach(v=>{
+    if(!map[v.productId]) map[v.productId] = {qty:0, total:0, article:v.article, marque:v.marque, icon:'📦'};
+    map[v.productId].qty   += Number(v.qty);
+    map[v.productId].total += Number(v.total);
+  });
+  // Enrich with product icon
+  products.forEach(p=>{ if(map[p.id]) map[p.id].icon = p.icon||'📦'; });
+
+  const totalVentes = Object.values(map).reduce((s,v)=>s+v.total, 0);
+  const sorted = Object.values(map).sort((a,b)=>b.qty - a.qty).slice(0,10);
+
+  const medals = ['🥇','🥈','🥉'];
+  tbody.innerHTML = sorted.map((p,i)=>{
+    const pct = totalVentes>0 ? ((p.total/totalVentes)*100).toFixed(1) : 0;
+    const barW = Math.round((p.qty/sorted[0].qty)*100);
+    return `<tr>
+      <td style="font-size:1.1rem;text-align:center;">${medals[i]||'#'+(i+1)}</td>
+      <td>${p.icon} <strong>${p.article}</strong></td>
+      <td><span class="code">${p.marque||'—'}</span></td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="flex:1;background:var(--bg2);border-radius:50px;height:6px;min-width:60px;">
+            <div style="width:${barW}%;background:var(--accent);height:6px;border-radius:50px;"></div>
+          </div>
+          <strong>${p.qty} u.</strong>
+        </div>
+      </td>
+      <td class="profit-positive"><strong>${fmt(p.total)} DT</strong></td>
+      <td><span class="badge badge-blue">${pct}%</span></td>
+    </tr>`;
+  }).join('');
 }
 
 // ── PRODUCTS ───────────────────────────────────────────────────────
 function renderProducts(){
-  const products = getProducts();
+  const products = [...getProducts()].sort((a,b)=>a.article.localeCompare(b.article,'fr'));
   const tbody = document.getElementById('products-table');
   if(products.length===0){
     tbody.innerHTML=`<tr><td colspan="8"><div class="empty"><div class="empty-icon">📦</div><p>Aucun produit. Cliquez sur "+ Ajouter produit".</p></div></td></tr>`;
@@ -676,6 +1348,7 @@ function renderProducts(){
     const badge = s===0?'badge-red':s<=2?'badge-amber':'badge-green';
     const label = s===0?'Rupture':s<=2?'Faible':'En stock';
     return `<tr>
+      <td><span class="code">${p.date||'—'}</span></td>
       <td><span class="code">${p.code}</span></td>
       <td>${p.icon||'📦'} <strong>${p.article}</strong></td>
       <td>${p.marque}</td>
@@ -700,15 +1373,17 @@ function closeModal(id){
   if(id==='modal-product'){
     document.getElementById('product-edit-id').value='';
     document.getElementById('modal-product-title').textContent='Nouveau Produit';
-    ['p-code','p-marque','p-article','p-stock','p-icon','p-prix-achat','p-prix-vente'].forEach(f=>document.getElementById(f).value='');
+    ['p-code','p-marque','p-article','p-stock','p-icon','p-prix-achat','p-prix-vente','p-date'].forEach(f=>document.getElementById(f).value='');
   }
   if(id==='modal-achat'){
     ['achat-edit-id','a-date','a-qty','a-prix','a-total'].forEach(f=>document.getElementById(f).value='');
     document.getElementById('a-product').value='';
+    document.getElementById('modal-achat').querySelector('h3').textContent='Enregistrer un Achat';
   }
   if(id==='modal-vente'){
     ['vente-edit-id','v-date','v-qty','v-prix','v-total'].forEach(f=>document.getElementById(f).value='');
     document.getElementById('v-product').value='';
+    document.getElementById('modal-vente').querySelector('h3').textContent='Enregistrer une Vente';
   }
 }
 
@@ -724,6 +1399,7 @@ function saveProduct(){
     prixAchat: Number(document.getElementById('p-prix-achat').value)||0,
     prixVente: Number(document.getElementById('p-prix-vente').value)||0,
     icon: document.getElementById('p-icon').value||'📦',
+    date: document.getElementById('p-date').value||'',
   };
   let products = getProducts();
   if(id){
@@ -751,6 +1427,7 @@ function editProduct(id){
   document.getElementById('p-icon').value = p.icon||'';
   document.getElementById('p-prix-achat').value = p.prixAchat||'';
   document.getElementById('p-prix-vente').value = p.prixVente||'';
+  document.getElementById('p-date').value = p.date||'';
   openModal('modal-product');
 }
 
@@ -779,17 +1456,19 @@ function renderAchats(){
     <td>${a.qty}</td>
     <td>${fmt(a.prix)} DT</td>
     <td><strong>${fmt(a.total)} DT</strong></td>
-    <td><button class="btn btn-danger btn-sm" onclick="deleteAchat('${a.id}')">✕</button></td>
+    <td style="display:flex;gap:6px;">
+      <button class="btn btn-ghost btn-sm" onclick="editAchat('${a.id}')">✏</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteAchat('${a.id}')">✕</button>
+    </td>
   </tr>`).join('');
 }
 
 function populateProductSelects(){
-  const products = getProducts();
+  const products = [...getProducts()].sort((a,b) => a.article.localeCompare(b.article, 'fr'));
   const opts = `<option value="">-- Choisir --</option>` +
     products.map(p=>`<option value="${p.id}">${p.icon||'📦'} ${p.article} (${p.marque})</option>`).join('');
   document.getElementById('a-product').innerHTML = opts;
   document.getElementById('v-product').innerHTML = opts;
-  // default dates
   const today = new Date().toISOString().split('T')[0];
   if(!document.getElementById('a-date').value) document.getElementById('a-date').value = today;
   if(!document.getElementById('v-date').value) document.getElementById('v-date').value = today;
@@ -808,21 +1487,39 @@ function calcAchatTotal(){
 }
 
 function saveAchat(){
-  const pid = document.getElementById('a-product').value;
+  const editId = document.getElementById('achat-edit-id').value;
+  const pid  = document.getElementById('a-product').value;
   const date = document.getElementById('a-date').value;
-  const qty = Number(document.getElementById('a-qty').value);
+  const qty  = Number(document.getElementById('a-qty').value);
   const prix = Number(document.getElementById('a-prix').value);
   if(!pid||!qty){ showToast('Remplissez tous les champs','error'); return; }
   const p = getProducts().find(x=>x.id===pid);
-  const achat = {
-    id:uid(), date, productId:pid,
-    code:p.code, article:p.article, marque:p.marque,
-    qty, prix, total:qty*prix
-  };
-  DB.set('achats', [...getAchats(), achat]);
+  const data = { date, productId:pid, code:p.code, article:p.article, marque:p.marque, qty, prix, total:qty*prix };
+  let achats = getAchats();
+  if(editId){
+    achats = achats.map(a=>a.id===editId ? {...a,...data} : a);
+    showToast('Achat modifié ✓');
+  } else {
+    achats.push({id:uid(),...data});
+    showToast('Achat enregistré ✓');
+  }
+  DB.set('achats', achats);
   closeModal('modal-achat');
   renderAchats(); updateBadges();
-  showToast('Achat enregistré ✓');
+}
+
+function editAchat(id){
+  const a = getAchats().find(x=>x.id===id);
+  if(!a) return;
+  populateProductSelects();
+  document.getElementById('achat-edit-id').value = id;
+  document.getElementById('modal-achat').querySelector('h3').textContent = 'Modifier Achat';
+  document.getElementById('a-date').value  = a.date||'';
+  document.getElementById('a-product').value = a.productId||'';
+  document.getElementById('a-qty').value   = a.qty;
+  document.getElementById('a-prix').value  = a.prix;
+  document.getElementById('a-total').value = a.total;
+  openModal('modal-achat');
 }
 
 function deleteAchat(id){
@@ -850,7 +1547,10 @@ function renderVentes(){
     <td>${v.qty}</td>
     <td>${fmt(v.prix)} DT</td>
     <td><strong class="profit-positive">${fmt(v.total)} DT</strong></td>
-    <td><button class="btn btn-danger btn-sm" onclick="deleteVente('${v.id}')">✕</button></td>
+    <td style="display:flex;gap:6px;">
+      <button class="btn btn-ghost btn-sm" onclick="editVente('${v.id}')">✏</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteVente('${v.id}')">✕</button>
+    </td>
   </tr>`).join('');
 }
 
@@ -867,23 +1567,44 @@ function calcVenteTotal(){
 }
 
 function saveVente(){
-  const pid = document.getElementById('v-product').value;
+  const editId = document.getElementById('vente-edit-id').value;
+  const pid  = document.getElementById('v-product').value;
   const date = document.getElementById('v-date').value;
-  const qty = Number(document.getElementById('v-qty').value);
+  const qty  = Number(document.getElementById('v-qty').value);
   const prix = Number(document.getElementById('v-prix').value);
   if(!pid||!qty){ showToast('Remplissez tous les champs','error'); return; }
   const p = getProducts().find(x=>x.id===pid);
+  // For stock check on edit, exclude current record's qty
   const currentStock = getStockForProduct(pid, p.stock);
-  if(qty > currentStock){ showToast(`Stock insuffisant (${currentStock} disponibles)`,'error'); return; }
-  const vente = {
-    id:uid(), date, productId:pid,
-    code:p.code, article:p.article, marque:p.marque,
-    qty, prix, total:qty*prix
-  };
-  DB.set('ventes', [...getVentes(), vente]);
+  const oldQty = editId ? (getVentes().find(v=>v.id===editId)?.qty||0) : 0;
+  const availableStock = currentStock + (editId ? oldQty : 0);
+  if(qty > availableStock){ showToast(`Stock insuffisant (${availableStock} disponibles)`,'error'); return; }
+  const data = { date, productId:pid, code:p.code, article:p.article, marque:p.marque, qty, prix, total:qty*prix };
+  let ventes = getVentes();
+  if(editId){
+    ventes = ventes.map(v=>v.id===editId ? {...v,...data} : v);
+    showToast('Vente modifiée ✓');
+  } else {
+    ventes.push({id:uid(),...data});
+    showToast('Vente enregistrée ✓');
+  }
+  DB.set('ventes', ventes);
   closeModal('modal-vente');
   renderVentes(); updateBadges();
-  showToast('Vente enregistrée ✓');
+}
+
+function editVente(id){
+  const v = getVentes().find(x=>x.id===id);
+  if(!v) return;
+  populateProductSelects();
+  document.getElementById('vente-edit-id').value = id;
+  document.getElementById('modal-vente').querySelector('h3').textContent = 'Modifier Vente';
+  document.getElementById('v-date').value    = v.date||'';
+  document.getElementById('v-product').value = v.productId||'';
+  document.getElementById('v-qty').value     = v.qty;
+  document.getElementById('v-prix').value    = v.prix;
+  document.getElementById('v-total').value   = v.total;
+  openModal('modal-vente');
 }
 
 function deleteVente(id){
@@ -896,8 +1617,21 @@ function deleteVente(id){
 }
 
 // ── STOCK REPORT ───────────────────────────────────────────────────
+async function actualiserStock(){
+  const btn = document.querySelector('[onclick="actualiserStock()"]');
+  if(btn){ btn.textContent='↻ Chargement...'; btn.disabled=true; }
+  try{
+    if(useCloud){ await sbPull(); }
+  } catch(e){}
+  renderStockReport();
+  renderDashboard();
+  updateBadges();
+  if(btn){ btn.textContent='↻ Actualiser'; btn.disabled=false; }
+  showToast('Données actualisées ✓');
+}
+
 function renderStockReport(){
-  const products = getProducts();
+  const products = [...getProducts()].sort((a,b)=>a.article.localeCompare(b.article,'fr'));
   const tbody = document.getElementById('stock-table');
   if(products.length===0){
     tbody.innerHTML=`<tr><td colspan="10"><div class="empty"><div class="empty-icon">📊</div><p>Aucun produit.</p></div></td></tr>`;
@@ -909,6 +1643,7 @@ function renderStockReport(){
       const badge = stockFinal===0?'badge-red':stockFinal<=2?'badge-amber':'badge-green';
       const label = stockFinal===0?'Rupture':stockFinal<=2?'Faible':'OK';
       return `<tr>
+        <td><span class="code">${p.date||'—'}</span></td>
         <td><span class="code">${p.code}</span></td>
         <td>${p.icon||'📦'} <strong>${p.article}</strong></td>
         <td>${p.marque}</td>
@@ -923,16 +1658,7 @@ function renderStockReport(){
     }).join('');
   }
 
-  // Financial report
-  const totalAchats = getAchats().reduce((s,a)=>s+Number(a.total),0);
-  const totalVentes = getVentes().reduce((s,v)=>s+Number(v.total),0);
-  const profit = totalVentes - totalAchats;
-  document.getElementById('financial-report').innerHTML = `
-    <div class="report-item"><span>Total Achats</span><span class="report-item-val profit-negative">${fmt(totalAchats)} DT</span></div>
-    <div class="report-item"><span>Total Ventes</span><span class="report-item-val profit-positive">${fmt(totalVentes)} DT</span></div>
-    <div class="report-item" style="font-weight:700"><span>Bénéfice Brut</span>
-      <span class="report-item-val ${profit>=0?'profit-positive':'profit-negative'}">${profit>=0?'+':''}${fmt(profit)} DT</span></div>
-  `;
+  renderFinancialReport();
 
   // Stock summary
   let totalUnits=0, rupture=0, faible=0;
@@ -948,6 +1674,75 @@ function renderStockReport(){
     <div class="report-item"><span>Produits stock faible</span><span class="report-item-val" style="color:var(--amber)">${faible}</span></div>
     <div class="report-item"><span>Total produits</span><span class="report-item-val">${products.length}</span></div>
   `;
+  // Render charts after DOM is ready
+  setTimeout(()=>renderCharts(), 80);
+}
+
+function renderFinancialReport(){
+  const startEl = document.getElementById('fin-date-start');
+  const endEl   = document.getElementById('fin-date-end');
+  if(!startEl || !endEl) return;
+  const dateStart = startEl.value;
+  const dateEnd   = endEl.value;
+
+  const inRange = (date) => {
+    if(!date) return true; // no date on record → include in global
+    if(dateStart && date < dateStart) return false;
+    if(dateEnd   && date > dateEnd)   return false;
+    return true;
+  };
+
+  const filteredAchats = getAchats().filter(a => inRange(a.date));
+  const filteredVentes = getVentes().filter(v => inRange(v.date));
+
+  const totalAchats = filteredAchats.reduce((s,a)=>s+Number(a.total),0);
+  const totalVentes = filteredVentes.reduce((s,v)=>s+Number(v.total),0);
+  const profit = totalVentes - totalAchats;
+
+  // Period label
+  const lbl = document.getElementById('fin-period-label');
+  if(!dateStart && !dateEnd){
+    lbl.textContent = 'Période : Globale';
+    lbl.style.color = 'var(--muted)';
+  } else {
+    const fmtD = d => d ? new Date(d).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'}) : '…';
+    lbl.textContent = `Période : ${fmtD(dateStart)} → ${fmtD(dateEnd)}`;
+    lbl.style.color = 'var(--accent)';
+  }
+
+  const nAchats = filteredAchats.length;
+  const nVentes = filteredVentes.length;
+
+  document.getElementById('financial-report').innerHTML = `
+    <div class="report-item">
+      <span>Total Achats <span style="font-size:.72rem;color:var(--muted);font-family:var(--font-mono);">(${nAchats} op.)</span></span>
+      <span class="report-item-val profit-negative">${fmt(totalAchats)} DT</span>
+    </div>
+    <div class="report-item">
+      <span>Total Ventes <span style="font-size:.72rem;color:var(--muted);font-family:var(--font-mono);">(${nVentes} op.)</span></span>
+      <span class="report-item-val profit-positive">${fmt(totalVentes)} DT</span>
+    </div>
+    <div class="report-item" style="font-weight:700;border-top:2px solid var(--border);margin-top:4px;padding-top:14px;">
+      <span>Bénéfice Brut</span>
+      <span class="report-item-val ${profit>=0?'profit-positive':'profit-negative'}" style="font-size:1.1rem;">
+        ${profit>=0?'+':''}${fmt(profit)} DT
+      </span>
+    </div>
+    ${profit>=0
+      ? `<div style="margin-top:10px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:8px 12px;font-size:.8rem;color:#166534;">
+           ✓ Marge : ${totalAchats>0?((profit/totalAchats)*100).toFixed(1):'—'}%
+         </div>`
+      : `<div style="margin-top:10px;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:8px 12px;font-size:.8rem;color:#991b1b;">
+           ⚠ Perte sur la période
+         </div>`
+    }
+  `;
+}
+
+function clearFinancialDates(){
+  document.getElementById('fin-date-start').value='';
+  document.getElementById('fin-date-end').value='';
+  renderFinancialReport();
 }
 
 // ── SEARCH ─────────────────────────────────────────────────────────
@@ -969,15 +1764,54 @@ function showToast(msg, type='success'){
   setTimeout(()=>t.classList.remove('show'),2800);
 }
 
+// ── DELETE ALL ──────────────────────────────────────────────────────
+function deleteAll(type){
+  const labels = {products:'tous les produits', achats:'tous les achats', ventes:'toutes les ventes'};
+  const counts = {products:getProducts().length, achats:getAchats().length, ventes:getVentes().length};
+  if(counts[type]===0){ showToast('La liste est déjà vide','error'); return; }
+  if(!confirm(`Envoyer ${labels[type]} (${counts[type]} élément(s)) à la corbeille ?`)) return;
+  const now = new Date().toLocaleString('fr-FR');
+  if(type==='products'){
+    DB.set('trash_products', [...getTrash('products'), ...getProducts().map(p=>({...p,deletedAt:now}))]);
+    DB.set('products',[]);
+    renderProducts();
+  } else if(type==='achats'){
+    DB.set('trash_achats', [...getTrash('achats'), ...getAchats().map(a=>({...a,deletedAt:now}))]);
+    DB.set('achats',[]);
+    renderAchats();
+  } else if(type==='ventes'){
+    DB.set('trash_ventes', [...getTrash('ventes'), ...getVentes().map(v=>({...v,deletedAt:now}))]);
+    DB.set('ventes',[]);
+    renderVentes();
+  }
+  updateBadges();
+  showToast(`${counts[type]} élément(s) déplacé(s) vers la corbeille 🗑`);
+}
+
 // ── TRASH ──────────────────────────────────────────────────────────
 function getTrash(type){ return DB.get('trash_'+type); }
 
 function updateBadges(){
-  document.getElementById('badge-products').textContent = getProducts().length;
-  document.getElementById('badge-achats').textContent = getAchats().length;
-  document.getElementById('badge-ventes').textContent = getVentes().length;
-  const total = getTrash('products').length + getTrash('achats').length + getTrash('ventes').length;
-  document.getElementById('badge-trash').textContent = total;
+  const pc = getProducts().length;
+  const ac = getAchats().length;
+  const vc = getVentes().length;
+  const tc = getTrash('products').length + getTrash('achats').length + getTrash('ventes').length;
+  document.getElementById('badge-products').textContent = pc;
+  document.getElementById('badge-achats').textContent   = ac;
+  document.getElementById('badge-ventes').textContent   = vc;
+  document.getElementById('badge-trash').textContent    = tc;
+  const setBn = (id, count) => {
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.textContent = count;
+    el.style.display = count > 0 ? 'flex' : 'none';
+  };
+  setBn('bn-badge-products', pc);
+  setBn('bn-badge-achats',   ac);
+  setBn('bn-badge-ventes',   vc);
+  setBn('bn-badge-trash',    tc);
+  // Refresh alerts
+  checkStockAlerts();
 }
 
 let currentTrashTab = 'products';
@@ -1124,20 +1958,186 @@ function emptyTrash(){
 }
 
 // ── INIT ───────────────────────────────────────────────────────────
-function init(){
+// ── STOCK ALERTS ──────────────────────────────────────────────────
+let notifPanelOpen = false;
+let lastAlertedProducts = new Set();
+
+function getThreshold(){
+  const el = document.getElementById('notif-threshold');
+  return el ? parseInt(el.value)||3 : 3;
+}
+
+function checkStockAlerts(){
+  const products = getProducts();
+  const threshold = getThreshold();
+  const alerts = [];
+
+  products.forEach(p=>{
+    const stock = getStockForProduct(p.id, p.stock);
+    if(stock <= threshold){
+      alerts.push({...p, currentStock: stock});
+    }
+  });
+
+  // Update bell badge
+  const countEl = document.getElementById('notif-count');
+  const bellEl  = document.getElementById('notif-bell');
+  if(countEl){
+    if(alerts.length > 0){
+      countEl.textContent = alerts.length;
+      countEl.style.display = 'flex';
+      if(bellEl) bellEl.style.background = '#FEE2E2';
+    } else {
+      countEl.style.display = 'none';
+      if(bellEl) bellEl.style.background = 'var(--bg2)';
+    }
+  }
+
+  // Show toast for NEW alerts
+  alerts.forEach(p=>{
+    const key = p.id+'_'+p.currentStock;
+    if(!lastAlertedProducts.has(key)){
+      lastAlertedProducts.add(key);
+      const msg = p.currentStock === 0
+        ? `🚫 Rupture : ${p.article}`
+        : `⚠ Stock faible : ${p.article} (${p.currentStock} restant${p.currentStock>1?'s':''})`;
+      showToast(msg, 'error');
+    }
+  });
+
+  // Render notification list
+  const list = document.getElementById('notif-list');
+  if(!list) return;
+  if(alerts.length === 0){
+    list.innerHTML = `<div style="padding:20px;text-align:center;color:var(--muted);font-size:.85rem;">✅ Tous les stocks sont suffisants</div>`;
+    return;
+  }
+
+  list.innerHTML = alerts
+    .sort((a,b)=>a.currentStock - b.currentStock)
+    .map(p=>`
+      <div onclick="goToProduct('${p.id}')" style="display:flex;align-items:center;gap:12px;padding:10px 16px;cursor:pointer;transition:background .2s;" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background=''">
+        <div style="font-size:1.5rem;">${p.icon||'📦'}</div>
+        <div style="flex:1;">
+          <div style="font-weight:700;font-size:.88rem;">${p.article}</div>
+          <div style="font-size:.75rem;color:var(--muted);">${p.marque||'—'} · <span class="code">${p.code}</span></div>
+        </div>
+        <span class="badge ${p.currentStock===0?'badge-red':'badge-amber'}">
+          ${p.currentStock===0?'Rupture':p.currentStock+' u.'}
+        </span>
+      </div>`).join('');
+}
+
+function goToProduct(productId){
+  // Close panel
+  document.getElementById('notif-panel').style.display = 'none';
+  notifPanelOpen = false;
+  // Navigate to products page
+  showPage('products');
+  // Highlight row after render
+  setTimeout(()=>{
+    const rows = document.querySelectorAll('#products-table tr');
+    rows.forEach(row=>{
+      row.style.transition = 'background .3s';
+      row.style.background = '';
+    });
+    // Find the row by product id — rows render via map so find by content
+    const products = getProducts().sort((a,b)=>a.article.localeCompare(b.article,'fr'));
+    const idx = products.findIndex(p=>p.id===productId);
+    if(idx >= 0 && rows[idx]){
+      const row = rows[idx];
+      // Flash highlight
+      row.style.background = '#FEF3C7';
+      row.scrollIntoView({behavior:'smooth', block:'center'});
+      setTimeout(()=>row.style.background = '#FEE2E2', 400);
+      setTimeout(()=>row.style.background = '#FEF3C7', 800);
+      setTimeout(()=>row.style.background = '#FEE2E2', 1200);
+      setTimeout(()=>row.style.background = '', 1800);
+    }
+  }, 120);
+}
+
+function toggleNotifPanel(){
+  notifPanelOpen = !notifPanelOpen;
+  const panel = document.getElementById('notif-panel');
+  if(panel) panel.style.display = notifPanelOpen ? 'block' : 'none';
+  if(notifPanelOpen) checkStockAlerts();
+}
+
+// Close panel when clicking outside
+document.addEventListener('click', e=>{
+  const panel = document.getElementById('notif-panel');
+  const bell  = document.getElementById('notif-bell');
+  if(panel && bell && !panel.contains(e.target) && !bell.contains(e.target)){
+    panel.style.display = 'none';
+    notifPanelOpen = false;
+  }
+});
+
+function launchApp(){
   seedData();
-  // Date display
   const now = new Date();
   const opts = {weekday:'long',year:'numeric',month:'long',day:'numeric'};
-  const dateStr = now.toLocaleDateString('fr-FR', opts);
-  document.getElementById('topbar-date').textContent = dateStr;
+  document.getElementById('topbar-date').textContent = now.toLocaleDateString('fr-FR', opts);
   document.getElementById('sidebar-date').textContent = now.getFullYear();
+  // Show config card if not connected to cloud
+  const card = document.getElementById('supabase-config-card');
+  if(card) card.style.display = useCloud ? 'none' : 'block';
   renderDashboard();
   updateBadges();
-  // Close modals on overlay click
   document.querySelectorAll('.modal-overlay').forEach(o=>{
-    o.addEventListener('click', e=>{ if(e.target===o) o.classList.remove('open'); });
+    o.addEventListener('click', e=>{
+      if(e.target===o){
+        if(o.id==='modal-barcode') closeBarcode();
+        else o.classList.remove('open');
+      }
+    });
   });
+  if(useCloud) startAutoSync();
+}
+
+
+function startAutoSync(){
+  if(autoSyncInterval) clearInterval(autoSyncInterval);
+  autoSyncInterval = setInterval(async()=>{
+    if(!useCloud) return;
+    try{ await sbPushAll(); }catch(e){}
+  }, 45000);
+}
+
+async function init(){
+  const topbarRight = document.getElementById('topbar-date').parentElement;
+  const badge = document.createElement('div');
+  badge.id = 'cloud-badge';
+  badge.className = 'cloud-badge local';
+  badge.innerHTML = '💾 Local';
+  badge.title = 'Cliquez pour configurer le cloud';
+  badge.onclick = showCloudScreen;
+  topbarRight.prepend(badge);
+
+  const auth = getSavedAuth();
+  if(auth && auth.url && auth.key){
+    // Reconnect to Supabase automatically
+    sbUrl = auth.url;
+    sbKey = auth.key;
+    try{
+      setBadge('loading');
+      await sbInit();
+      await sbPull();
+      await sbPushAll();
+      useCloud = true;
+      setBadge('online');
+      startAutoSync();
+    } catch(e){
+      setBadge('local');
+    }
+    launchApp();
+  } else {
+    // Pre-fill if partial config saved
+    if(auth?.url){ const el=document.getElementById('sb-url'); if(el) el.value=auth.url; }
+    if(auth?.key){ const el=document.getElementById('sb-key'); if(el) el.value=auth.key; }
+    launchApp();
+  }
 }
 
 init();
@@ -1167,6 +2167,8 @@ init();
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <script>
 // ── SIMPLE EXCEL IMPORT ─────────────────────────────────────────────
 let importedRows = [];
@@ -1180,49 +2182,116 @@ function handleDrop(e){
 
 function importFromExcel(file){
   if(!file) return;
+  document.getElementById('excel-import-input').value = '';
   const reader = new FileReader();
   reader.onload = function(e){
     try {
       const wb = XLSX.read(e.target.result, {type:'binary'});
       const ws = wb.Sheets[wb.SheetNames[0]];
-      const raw = XLSX.utils.sheet_to_json(ws, {defval:''});
+      const raw = XLSX.utils.sheet_to_json(ws, {defval:'', raw:false});
       if(!raw.length){ showToast('Fichier vide ou non reconnu','error'); return; }
 
+      // ── Smart column detection ──────────────────────────────────
       const keys = Object.keys(raw[0]).map(k=>k.trim());
-      const find = (...words) => keys.find(k=>words.some(w=>k.toLowerCase().includes(w)))||null;
 
-      const colCode    = find('code');
-      const colArticle = find('article','nom','produit');
-      const colMarque  = find('marque','brand');
-      const colStock   = find('stock','qté','quantit','initial');
-      const colAchat   = find('achat');
-      const colVente   = find('vente');
+      // Priority-ordered matchers — first match wins
+      const detect = (priorities) => {
+        for(const words of priorities){
+          const col = keys.find(k => words.every(w => k.toLowerCase().includes(w)));
+          if(col) return col;
+        }
+        return null;
+      };
+
+      const colCode    = detect([['code article'],['code art'],['référence'],['ref'],['code']]);
+      const colArticle = detect([['nom article'],['désignation'],['libellé'],['article'],['produit'],['nom']]);
+      const colMarque  = detect([['marque'],['brand'],['fabricant']]);
+      const colStock   = detect([['stock initial'],['stock init'],['quantité initiale'],['qté init'],['stock'],['quantité'],['qté']]);
+      const colAchat   = detect([["prix d'achat"],['prix achat'],['coût'],['achat']]);
+      const colVente   = detect([['prix de vente'],['prix vente'],['tarif'],['vente']]);
+      const colDate    = detect([['date'],['date ajout'],['date création']]);
+
+      // ── Parse each row ─────────────────────────────────────────
+      const parseNum = v => {
+        if(v===null||v===undefined||v==='') return 0;
+        // Handle numbers like "1 530,00" or "1530.00"
+        const cleaned = String(v).replace(/\s/g,'').replace(',','.');
+        const n = parseFloat(cleaned);
+        return isNaN(n) ? 0 : n;
+      };
 
       importedRows = raw
-        .filter(r => String(r[colCode]||r[colArticle]||'').trim())
-        .map(r => ({
-          id: uid(),
-          code:      String(r[colCode]||'').trim(),
-          article:   String(r[colArticle]||'').trim(),
-          marque:    String(r[colMarque]||'').trim(),
-          stock:     Number(r[colStock])||0,
-          prixAchat: Number(r[colAchat])||0,
-          prixVente: Number(r[colVente])||0,
-          icon: '📦',
-        })).filter(r=>r.code||r.article);
+        .filter(r => {
+          const c = colCode   ? String(r[colCode]||'').trim()   : '';
+          const a = colArticle? String(r[colArticle]||'').trim(): '';
+          return c || a;
+        })
+        .map(r => {
+          const code    = colCode    ? String(r[colCode]||'').trim()    : '';
+          const article = colArticle ? String(r[colArticle]||'').trim() : '';
+          return {
+            id:        uid(),
+            code:      code || article, // fallback: use article as code if no code col
+            article:   article || code, // fallback: use code as article if no article col
+            marque:    colMarque  ? String(r[colMarque]||'').trim()  : '',
+            stock:     colStock   ? parseNum(r[colStock])            : 0,
+            prixAchat: colAchat   ? parseNum(r[colAchat])            : 0,
+            prixVente: colVente   ? parseNum(r[colVente])            : 0,
+            date:      colDate    ? String(r[colDate]||'').trim()    : '',
+            icon: '📦',
+          };
+        })
+        .filter(r => r.code && r.article);
 
-      if(!importedRows.length){ showToast('Aucun produit trouvé dans le fichier','error'); return; }
+      if(!importedRows.length){ showToast('Aucun produit valide trouvé','error'); return; }
 
+      // ── Build preview ──────────────────────────────────────────
       const existingCodes = getProducts().map(p=>p.code.toLowerCase());
-      const dupes = importedRows.filter(r=>existingCodes.includes(r.code.toLowerCase())).length;
+      const dupes   = importedRows.filter(r=>existingCodes.includes(r.code.toLowerCase())).length;
       const newOnes = importedRows.length - dupes;
 
-      document.getElementById('import-result-msg').innerHTML =
-        `<div style="font-size:2.5rem;margin-bottom:12px;">✅</div>
-         <strong>${importedRows.length}</strong> produit(s) détecté(s)<br/>
-         <span style="font-size:.85rem;color:var(--muted);font-weight:400;">
-           ${newOnes} nouveau(x) · ${dupes} déjà existant(s)
-         </span>`;
+      // Show column mapping detected
+      const mapped = [
+        colCode    ? `Code → <b>${colCode}</b>`       : '<span style="color:#f87171">Code → non détecté</span>',
+        colArticle ? `Article → <b>${colArticle}</b>` : '<span style="color:#f87171">Article → non détecté</span>',
+        colMarque  ? `Marque → <b>${colMarque}</b>`   : '',
+        colStock   ? `Stock → <b>${colStock}</b>`     : '<span style="color:#fbbf24">Stock → non détecté (0)</span>',
+        colAchat   ? `Prix Achat → <b>${colAchat}</b>`:'',
+        colVente   ? `Prix Vente → <b>${colVente}</b>`:'',
+      ].filter(Boolean).join(' · ');
+
+      // Preview table (first 5 rows)
+      const previewRows = importedRows.slice(0,5).map(r=>`
+        <tr>
+          <td><span class="code">${r.code||'—'}</span></td>
+          <td><strong>${r.article||'—'}</strong></td>
+          <td>${r.marque||'—'}</td>
+          <td>${r.stock}</td>
+          <td>${r.prixAchat?r.prixAchat+' DT':'—'}</td>
+          <td>${r.prixVente?r.prixVente+' DT':'—'}</td>
+        </tr>`).join('');
+
+      document.getElementById('import-result-msg').innerHTML = `
+        <div style="font-size:2rem;margin-bottom:8px;">✅</div>
+        <strong>${importedRows.length}</strong> produit(s) détecté(s) &nbsp;·&nbsp;
+        <span style="color:var(--accent)">${newOnes} nouveau(x)</span>
+        ${dupes?` · <span style="color:var(--amber)">${dupes} doublon(s)</span>`:''}
+        <div style="font-size:.75rem;color:var(--muted);margin-top:8px;line-height:1.8;">${mapped}</div>
+        <div style="margin-top:12px;border:1px solid var(--border);border-radius:10px;overflow:hidden;text-align:left;">
+          <table style="width:100%;border-collapse:collapse;font-size:.78rem;">
+            <thead><tr style="background:var(--bg2);">
+              <th style="padding:7px 10px;text-align:left;font-family:var(--font-mono);font-size:.65rem;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);">Code</th>
+              <th style="padding:7px 10px;text-align:left;font-family:var(--font-mono);font-size:.65rem;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);">Article</th>
+              <th style="padding:7px 10px;text-align:left;font-family:var(--font-mono);font-size:.65rem;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);">Marque</th>
+              <th style="padding:7px 10px;text-align:left;font-family:var(--font-mono);font-size:.65rem;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);">Stock</th>
+              <th style="padding:7px 10px;text-align:left;font-family:var(--font-mono);font-size:.65rem;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);">P.Achat</th>
+              <th style="padding:7px 10px;text-align:left;font-family:var(--font-mono);font-size:.65rem;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);">P.Vente</th>
+            </tr></thead>
+            <tbody>${previewRows}</tbody>
+          </table>
+          ${importedRows.length>5?`<div style="padding:7px 12px;font-size:.75rem;color:var(--muted);background:var(--bg2);">... et ${importedRows.length-5} autre(s)</div>`:''}
+        </div>`;
+
       document.getElementById('import-overwrite-row').style.display = dupes>0 ? 'block':'none';
       document.getElementById('import-confirm-btn').style.display = 'inline-flex';
       openModal('modal-import');
@@ -1249,6 +2318,596 @@ function confirmImport(){
   importedRows=[];
   renderProducts(); updateBadges();
   showToast(`Import OK — ${added} ajouté(s)${updated?' · '+updated+' mis à jour':''}${skipped?' · '+skipped+' ignoré(s)':''}`);
+}
+
+// ── IMPORT ACHATS FROM EXCEL ────────────────────────────────────────
+function handleDropAchats(e){
+  e.preventDefault();
+  document.getElementById('drop-zone-achats').classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if(file) importAchatsFromExcel(file);
+}
+
+function importAchatsFromExcel(file){
+  if(!file) return;
+  document.getElementById('excel-achats-input').value='';
+  const reader = new FileReader();
+  reader.onload = function(e){
+    try {
+      const wb = XLSX.read(e.target.result,{type:'binary'});
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const raw = XLSX.utils.sheet_to_json(ws,{defval:'', raw:false});
+      if(!raw.length){ showToast('Fichier vide ou non reconnu','error'); return; }
+
+      const keys = Object.keys(raw[0]).map(k=>k.trim());
+      const detect = (priorities) => {
+        for(const words of priorities){
+          const col = keys.find(k => words.every(w => k.toLowerCase().includes(w)));
+          if(col) return col;
+        }
+        return null;
+      };
+
+      const colDate  = detect([['date']]);
+      const colCode  = detect([['code article'],['code art'],['référence'],['ref'],['code']]);
+      const colQty   = detect([['quantité'],['qté'],['quantit'],['qty']]);
+      const colPrix  = detect([["prix d'achat"],['prix achat'],['achat'],['prix']]);
+
+      const parseNum = v => {
+        if(!v && v!==0) return 0;
+        const n = parseFloat(String(v).replace(/\s/g,'').replace(',','.'));
+        return isNaN(n)?0:n;
+      };
+
+      const products = getProducts();
+      let added=0, skipped=0;
+      const newAchats = [...getAchats()];
+
+      raw.forEach(r=>{
+        const code = colCode ? String(r[colCode]||'').trim() : '';
+        const qty  = parseNum(r[colQty]);
+        const prix = parseNum(r[colPrix]);
+        if(!code||!qty){ skipped++; return; }
+
+        const prod = products.find(p=>p.code.toLowerCase()===code.toLowerCase());
+        if(!prod){ skipped++; return; }
+
+        const dateRaw = r[colDate];
+        let date = '';
+        if(dateRaw){
+          if(typeof dateRaw==='number'){
+            const d = new Date(Math.round((dateRaw-25569)*86400*1000));
+            date = d.toISOString().split('T')[0];
+          } else {
+            const parsed = new Date(dateRaw);
+            date = isNaN(parsed)?String(dateRaw).slice(0,10):parsed.toISOString().split('T')[0];
+          }
+        }
+
+        newAchats.push({
+          id:uid(), date, productId:prod.id,
+          code:prod.code, article:prod.article, marque:prod.marque,
+          qty, prix, total:qty*prix
+        });
+        added++;
+      });
+
+      DB.set('achats', newAchats);
+      renderAchats(); updateBadges();
+      showToast(`Import Achats OK — ${added} ajouté(s)${skipped?' · '+skipped+' ignoré(s)':''}`);
+    } catch(err){ showToast('Erreur: '+err.message,'error'); }
+  };
+  reader.readAsBinaryString(file);
+}
+
+// ── IMPORT VENTES FROM EXCEL ────────────────────────────────────────
+function handleDropVentes(e){
+  e.preventDefault();
+  document.getElementById('drop-zone-ventes').classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if(file) importVentesFromExcel(file);
+}
+
+function importVentesFromExcel(file){
+  if(!file) return;
+  document.getElementById('excel-ventes-input').value='';
+  const reader = new FileReader();
+  reader.onload = function(e){
+    try {
+      const wb = XLSX.read(e.target.result,{type:'binary'});
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const raw = XLSX.utils.sheet_to_json(ws,{defval:'', raw:false});
+      if(!raw.length){ showToast('Fichier vide ou non reconnu','error'); return; }
+
+      const keys = Object.keys(raw[0]).map(k=>k.trim());
+      const detect = (priorities) => {
+        for(const words of priorities){
+          const col = keys.find(k => words.every(w => k.toLowerCase().includes(w)));
+          if(col) return col;
+        }
+        return null;
+      };
+
+      const colDate  = detect([['date']]);
+      const colCode  = detect([['code article'],['code art'],['référence'],['ref'],['code']]);
+      const colQty   = detect([['quantité'],['qté'],['quantit'],['qty']]);
+      const colPrix  = detect([['prix de vente'],['prix vente'],['vente'],['prix']]);
+
+      const parseNum = v => {
+        if(!v && v!==0) return 0;
+        const n = parseFloat(String(v).replace(/\s/g,'').replace(',','.'));
+        return isNaN(n)?0:n;
+      };
+
+      const products = getProducts();
+      let added=0, skipped=0;
+      const newVentes = [...getVentes()];
+
+      raw.forEach(r=>{
+        const code = colCode ? String(r[colCode]||'').trim() : '';
+        const qty  = parseNum(r[colQty]);
+        const prix = parseNum(r[colPrix]);
+        if(!code||!qty){ skipped++; return; }
+
+        const prod = products.find(p=>p.code.toLowerCase()===code.toLowerCase());
+        if(!prod){ skipped++; return; }
+
+        const dateRaw = r[colDate];
+        let date = '';
+        if(dateRaw){
+          if(typeof dateRaw==='number'){
+            const d = new Date(Math.round((dateRaw-25569)*86400*1000));
+            date = d.toISOString().split('T')[0];
+          } else {
+            const parsed = new Date(dateRaw);
+            date = isNaN(parsed)?String(dateRaw).slice(0,10):parsed.toISOString().split('T')[0];
+          }
+        }
+
+        newVentes.push({
+          id:uid(), date, productId:prod.id,
+          code:prod.code, article:prod.article, marque:prod.marque,
+          qty, prix, total:qty*prix
+        });
+        added++;
+      });
+
+      DB.set('ventes', newVentes);
+      renderVentes(); updateBadges();
+      showToast(`Import Ventes OK — ${added} ajouté(s)${skipped?' · '+skipped+' ignoré(s)':''}`);
+    } catch(err){ showToast('Erreur: '+err.message,'error'); }
+  };
+  reader.readAsBinaryString(file);
+}
+
+// ── CHARTS ────────────────────────────────────────────────────────
+const chartInstances = {};
+
+function destroyChart(id){
+  if(chartInstances[id]){ chartInstances[id].destroy(); delete chartInstances[id]; }
+}
+
+function getMonthlyData(records, field='total'){
+  const months = {};
+  const now = new Date();
+  // Init last 6 months
+  for(let i=5;i>=0;i--){
+    const d = new Date(now.getFullYear(), now.getMonth()-i, 1);
+    const key = d.toLocaleString('fr-FR',{month:'short', year:'2-digit'});
+    months[key] = 0;
+  }
+  records.forEach(r=>{
+    if(!r.date) return;
+    const d = new Date(r.date);
+    const key = d.toLocaleString('fr-FR',{month:'short', year:'2-digit'});
+    if(key in months) months[key] += Number(r[field])||0;
+  });
+  return { labels: Object.keys(months), data: Object.values(months) };
+}
+
+function renderCharts(){
+  if(typeof Chart === 'undefined') return;
+
+  const accent   = '#2D5A27';
+  const accentL  = '#6BBF61';
+  const amber    = '#D97706';
+  const amberL   = '#FBBF24';
+  const red      = '#C0392B';
+  const blue     = '#1D4ED8';
+  const gridColor = 'rgba(0,0,0,.06)';
+
+  const baseOpts = {
+    responsive:true,
+    plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label: ctx => ' '+ctx.parsed.y.toLocaleString('fr-FR')+' DT' } } },
+    scales:{
+      x:{ grid:{ color:gridColor }, ticks:{ font:{ size:11 } } },
+      y:{ grid:{ color:gridColor }, ticks:{ font:{ size:11 }, callback: v=>v.toLocaleString('fr-FR') } }
+    }
+  };
+
+  // ── Chart 1: Ventes par mois ──
+  destroyChart('chart-ventes-month');
+  const vm = getMonthlyData(getVentes());
+  const ctx1 = document.getElementById('chart-ventes-month');
+  if(ctx1) chartInstances['chart-ventes-month'] = new Chart(ctx1, {
+    type:'bar',
+    data:{ labels:vm.labels, datasets:[{
+      label:'Ventes (DT)', data:vm.data,
+      backgroundColor: vm.data.map(v=>v>0?accentL+'99':gridColor),
+      borderColor: vm.data.map(v=>v>0?accent:gridColor),
+      borderWidth:2, borderRadius:6
+    }]},
+    options:{ ...baseOpts, plugins:{...baseOpts.plugins, tooltip:{ callbacks:{ label: ctx=>' '+ctx.parsed.y.toLocaleString('fr-FR')+' DT' }}} }
+  });
+
+  // ── Chart 2: Achats par mois ──
+  destroyChart('chart-achats-month');
+  const am = getMonthlyData(getAchats());
+  const ctx2 = document.getElementById('chart-achats-month');
+  if(ctx2) chartInstances['chart-achats-month'] = new Chart(ctx2, {
+    type:'bar',
+    data:{ labels:am.labels, datasets:[{
+      label:'Achats (DT)', data:am.data,
+      backgroundColor: am.data.map(v=>v>0?amberL+'99':gridColor),
+      borderColor: am.data.map(v=>v>0?amber:gridColor),
+      borderWidth:2, borderRadius:6
+    }]},
+    options:{ ...baseOpts, plugins:{...baseOpts.plugins, tooltip:{ callbacks:{ label: ctx=>' '+ctx.parsed.y.toLocaleString('fr-FR')+' DT' }}} }
+  });
+
+  // ── Chart 3: Stock par produit ──
+  destroyChart('chart-stock');
+  const products = [...getProducts()].sort((a,b)=>a.article.localeCompare(b.article,'fr'));
+  const stockLabels = products.map(p=>p.article.length>12?p.article.slice(0,12)+'…':p.article);
+  const stockData   = products.map(p=>getStockForProduct(p.id,p.stock));
+  const ctx3 = document.getElementById('chart-stock');
+  if(ctx3) chartInstances['chart-stock'] = new Chart(ctx3, {
+    type:'bar',
+    data:{ labels:stockLabels, datasets:[{
+      label:'Stock', data:stockData,
+      backgroundColor: stockData.map(v=>v===0?red+'99':v<=2?amberL+'99':accentL+'99'),
+      borderColor:     stockData.map(v=>v===0?red:v<=2?amber:accent),
+      borderWidth:2, borderRadius:6
+    }]},
+    options:{
+      ...baseOpts,
+      plugins:{...baseOpts.plugins, tooltip:{ callbacks:{ label: ctx=>' '+ctx.parsed.y+' unités' }}},
+      scales:{ x:{...baseOpts.scales.x}, y:{ ...baseOpts.scales.y, ticks:{ callback: v=>v+' u.' } } }
+    }
+  });
+
+  // ── Chart 4: Répartition ventes (Pie) ──
+  destroyChart('chart-pie');
+  const venteMap = {};
+  getVentes().forEach(v=>{ venteMap[v.article] = (venteMap[v.article]||0)+Number(v.total); });
+  const pieLabels = Object.keys(venteMap);
+  const pieData   = Object.values(venteMap);
+  const pieColors = ['#2D5A27','#4A8C42','#6BBF61','#D97706','#1D4ED8','#C0392B','#9333EA','#0891B2','#EA580C','#65A30D'];
+  const ctx4 = document.getElementById('chart-pie');
+  if(ctx4){
+    if(pieLabels.length===0){
+      ctx4.parentElement.innerHTML = '<h3>🥧 Répartition des ventes</h3><div class="empty" style="padding:40px"><div class="empty-icon">📊</div><p>Aucune vente enregistrée</p></div>';
+    } else {
+      chartInstances['chart-pie'] = new Chart(ctx4, {
+        type:'doughnut',
+        data:{ labels:pieLabels, datasets:[{
+          data:pieData,
+          backgroundColor: pieColors.slice(0,pieLabels.length),
+          borderWidth:2, borderColor:'#fff', hoverOffset:8
+        }]},
+        options:{
+          responsive:true,
+          plugins:{
+            legend:{ display:true, position:'bottom', labels:{ font:{size:11}, padding:12 } },
+            tooltip:{ callbacks:{ label: ctx=>` ${ctx.label}: ${ctx.parsed.toLocaleString('fr-FR')} DT` }}
+          }
+        }
+      });
+    }
+  }
+}
+
+// ── BARCODE SCANNER ───────────────────────────────────────────────
+let barcodeScanner = null;
+let barcodeTarget  = null; // 'achat' | 'vente' | 'product'
+
+function openBarcode(target){
+  barcodeTarget = target;
+  document.getElementById('barcode-manual').value = '';
+  document.getElementById('barcode-status').style.display = 'none';
+  document.getElementById('modal-barcode').classList.add('open');
+
+  // Start camera after modal is visible
+  setTimeout(()=>startBarcodeScanner(), 300);
+}
+
+function closeBarcode(){
+  stopBarcodeScanner();
+  document.getElementById('modal-barcode').classList.remove('open');
+  document.getElementById('barcode-reader').innerHTML = '';
+}
+
+function startBarcodeScanner(){
+  if(typeof Html5Qrcode === 'undefined') return;
+  stopBarcodeScanner();
+  try{
+    barcodeScanner = new Html5Qrcode('barcode-reader');
+    barcodeScanner.start(
+      { facingMode:'environment' },
+      { fps:10, qrbox:{ width:250, height:150 }, aspectRatio:1.5 },
+      (code) => { handleBarcodeResult(code); }
+    ).catch(err=>{
+      setBarcodeStatus('Caméra non disponible. Entrez le code manuellement.','error');
+    });
+  } catch(e){
+    setBarcodeStatus('Erreur caméra. Entrez le code manuellement.','error');
+  }
+}
+
+function stopBarcodeScanner(){
+  if(barcodeScanner){
+    barcodeScanner.stop().catch(()=>{});
+    barcodeScanner = null;
+  }
+}
+
+function handleBarcodeResult(code){
+  stopBarcodeScanner();
+  applyBarcode(code.trim());
+}
+
+function applyManualBarcode(){
+  const code = document.getElementById('barcode-manual').value.trim();
+  if(!code){ setBarcodeStatus('Entrez un code.','error'); return; }
+  applyBarcode(code);
+}
+
+function applyBarcode(code){
+  const products = getProducts();
+  // Try to find product by code
+  const found = products.find(p =>
+    p.code.toLowerCase() === code.toLowerCase() ||
+    p.code.toLowerCase().includes(code.toLowerCase())
+  );
+
+  if(barcodeTarget === 'product'){
+    // Fill code field in product form
+    document.getElementById('p-code').value = code;
+    closeBarcode();
+    showToast('Code scanné: '+code);
+    return;
+  }
+
+  if(!found){
+    setBarcodeStatus(`⚠ Produit introuvable pour le code: ${code}<br/><small>Vérifiez que ce produit existe dans votre catalogue.</small>`,'error');
+    return;
+  }
+
+  // Fill product select
+  const selectId = barcodeTarget==='achat' ? 'a-product' : 'v-product';
+  const select = document.getElementById(selectId);
+  if(select){
+    select.value = found.id;
+    if(barcodeTarget==='achat') fillAchatProduct();
+    else fillVenteProduct();
+  }
+
+  setBarcodeStatus(`✓ Produit trouvé : <strong>${found.article}</strong> (${found.marque})`,'success');
+  setTimeout(()=>closeBarcode(), 1200);
+}
+
+function setBarcodeStatus(msg, type='success'){
+  const el = document.getElementById('barcode-status');
+  const s = {
+    success:'background:#dcfce7;border:1px solid #bbf7d0;color:#166534;',
+    error:  'background:#fee2e2;border:1px solid #fecaca;color:#991b1b;',
+  };
+  el.style.cssText = 'display:block;border-radius:10px;padding:10px 14px;font-size:.83rem;line-height:1.6;'+(s[type]||s.success);
+  el.innerHTML = msg;
+}
+
+// ── COMPARISON ────────────────────────────────────────────────────
+function setCmpPreset(preset){
+  const now = new Date();
+  const fmtDate = d => d.toISOString().split('T')[0];
+
+  if(preset === 'thisVsLast'){
+    const aStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    const aEnd   = new Date(now.getFullYear(), now.getMonth()+1, 0);
+    const bStart = new Date(now.getFullYear(), now.getMonth()-1, 1);
+    const bEnd   = new Date(now.getFullYear(), now.getMonth(), 0);
+    document.getElementById('cmp-a-start').value = fmtDate(aStart);
+    document.getElementById('cmp-a-end').value   = fmtDate(aEnd);
+    document.getElementById('cmp-b-start').value = fmtDate(bStart);
+    document.getElementById('cmp-b-end').value   = fmtDate(bEnd);
+  } else if(preset === 'last2months'){
+    const aStart = new Date(now.getFullYear(), now.getMonth()-1, 1);
+    const aEnd   = new Date(now.getFullYear(), now.getMonth(), 0);
+    const bStart = new Date(now.getFullYear(), now.getMonth()-2, 1);
+    const bEnd   = new Date(now.getFullYear(), now.getMonth()-1, 0);
+    document.getElementById('cmp-a-start').value = fmtDate(aStart);
+    document.getElementById('cmp-a-end').value   = fmtDate(aEnd);
+    document.getElementById('cmp-b-start').value = fmtDate(bStart);
+    document.getElementById('cmp-b-end').value   = fmtDate(bEnd);
+  } else if(preset === 'last2weeks'){
+    const aStart = new Date(now); aStart.setDate(now.getDate()-7);
+    const aEnd   = new Date(now);
+    const bStart = new Date(now); bStart.setDate(now.getDate()-14);
+    const bEnd   = new Date(now); bEnd.setDate(now.getDate()-7);
+    document.getElementById('cmp-a-start').value = fmtDate(aStart);
+    document.getElementById('cmp-a-end').value   = fmtDate(aEnd);
+    document.getElementById('cmp-b-start').value = fmtDate(bStart);
+    document.getElementById('cmp-b-end').value   = fmtDate(bEnd);
+  }
+  renderComparison();
+}
+
+function calcPeriod(records, startStr, endStr, field='total'){
+  return records.filter(r=>{
+    if(!r.date) return false;
+    return r.date >= startStr && r.date <= endStr;
+  }).reduce((s,r)=>s+Number(r[field]||0), 0);
+}
+
+function renderComparison(){
+  const aStart = document.getElementById('cmp-a-start').value;
+  const aEnd   = document.getElementById('cmp-a-end').value;
+  const bStart = document.getElementById('cmp-b-start').value;
+  const bEnd   = document.getElementById('cmp-b-end').value;
+  const el     = document.getElementById('comparison-result');
+
+  if(!aStart||!aEnd||!bStart||!bEnd){
+    el.innerHTML = `<div style="color:var(--muted);font-size:.85rem;text-align:center;padding:12px;">Sélectionnez les deux périodes pour comparer.</div>`;
+    return;
+  }
+
+  const ventes = getVentes();
+  const achats = getAchats();
+
+  const aVentes = calcPeriod(ventes, aStart, aEnd);
+  const bVentes = calcPeriod(ventes, bStart, bEnd);
+  const aAchats = calcPeriod(achats, aStart, aEnd);
+  const bAchats = calcPeriod(achats, bStart, bEnd);
+  const aBenef  = aVentes - aAchats;
+  const bBenef  = bVentes - bAchats;
+  const aVQty   = ventes.filter(v=>v.date>=aStart&&v.date<=aEnd).reduce((s,v)=>s+Number(v.qty),0);
+  const bVQty   = ventes.filter(v=>v.date>=bStart&&v.date<=bEnd).reduce((s,v)=>s+Number(v.qty),0);
+
+  const diff = (a, b) => {
+    if(b===0) return a>0 ? {pct:'nouveau',cls:'profit-positive',arrow:'↑'} : {pct:'—',cls:'',arrow:''};
+    const p = ((a-b)/b*100).toFixed(1);
+    const up = a >= b;
+    return { pct: (up?'+':'')+p+'%', cls: up?'profit-positive':'profit-negative', arrow: up?'↑':'↓' };
+  };
+
+  const fmtD = d => new Date(d).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'});
+  const labelA = `${fmtD(aStart)} → ${fmtD(aEnd)}`;
+  const labelB = `${fmtD(bStart)} → ${fmtD(bEnd)}`;
+
+  const row = (label, a, b, isMoney=true) => {
+    const d = diff(a, b);
+    const fA = isMoney ? fmt(a)+' DT' : a+' u.';
+    const fB = isMoney ? fmt(b)+' DT' : b+' u.';
+    return `<div class="report-item">
+      <span style="font-weight:500;">${label}</span>
+      <div style="display:flex;gap:16px;align-items:center;">
+        <span style="color:var(--accent);font-family:var(--font-mono);font-size:.85rem;font-weight:700;">${fA}</span>
+        <span style="color:#1D4ED8;font-family:var(--font-mono);font-size:.85rem;font-weight:700;">${fB}</span>
+        <span class="${d.cls}" style="font-family:var(--font-mono);font-size:.8rem;font-weight:700;min-width:60px;text-align:right;">${d.arrow} ${d.pct}</span>
+      </div>
+    </div>`;
+  };
+
+  el.innerHTML = `
+    <div style="display:flex;gap:16px;margin-bottom:12px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:6px;font-size:.78rem;"><div style="width:10px;height:10px;border-radius:50%;background:var(--accent);"></div><span style="color:var(--muted);">Période A : ${labelA}</span></div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:.78rem;"><div style="width:10px;height:10px;border-radius:50%;background:#1D4ED8;"></div><span style="color:var(--muted);">Période B : ${labelB}</span></div>
+    </div>
+    ${row('Ventes (CA)', aVentes, bVentes)}
+    ${row('Achats (coût)', aAchats, bAchats)}
+    ${row('Bénéfice brut', aBenef, bBenef)}
+    ${row('Unités vendues', aVQty, bVQty, false)}
+  `;
+}
+
+// ── EXPORT ────────────────────────────────────────────────────────
+function exportData(format){
+  const products = getProducts();
+  const achats   = getAchats();
+  const ventes   = getVentes();
+
+  if(format === 'json'){
+    const data = { products, achats, ventes,
+      exported: new Date().toLocaleString('fr-FR') };
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+    downloadBlob(blob, 'mon-magasin-backup.json');
+    showToast('Export JSON téléchargé ✓');
+    return;
+  }
+
+  if(format === 'excel'){
+    // Build workbook with 3 sheets
+    const wb = XLSX.utils.book_new();
+
+    // Sheet 1 — Products
+    const prodRows = products.map(p => ({
+      'Date':            p.date||'',
+      'Code':            p.code,
+      'Article':         p.article,
+      'Marque':          p.marque,
+      'Stock Initial':   p.stock,
+      'Stock Actuel':    getStockForProduct(p.id, p.stock),
+      "Prix d'Achat (DT)": p.prixAchat||0,
+      'Prix de Vente (DT)': p.prixVente||0,
+    }));
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(prodRows), 'Produits');
+
+    // Sheet 2 — Achats
+    const achatRows = achats.map(a => ({
+      'Date':        a.date||'',
+      'Code':        a.code,
+      'Article':     a.article,
+      'Marque':      a.marque,
+      'Quantité':    a.qty,
+      "Prix d'Achat (DT)": a.prix,
+      'Total (DT)':  a.total,
+    }));
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(achatRows), 'Achats');
+
+    // Sheet 3 — Ventes
+    const venteRows = ventes.map(v => ({
+      'Date':        v.date||'',
+      'Code':        v.code,
+      'Article':     v.article,
+      'Marque':      v.marque,
+      'Quantité':    v.qty,
+      'Prix de Vente (DT)': v.prix,
+      'Total (DT)':  v.total,
+    }));
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(venteRows), 'Ventes');
+
+    const date = new Date().toISOString().slice(0,10);
+    XLSX.writeFile(wb, `mon-magasin-${date}.xlsx`);
+    showToast('Export Excel téléchargé ✓');
+  }
+}
+
+function importBackup(input){
+  const file = input.files[0];
+  if(!file) return;
+  input.value = '';
+  const reader = new FileReader();
+  reader.onload = function(e){
+    try{
+      const data = JSON.parse(e.target.result);
+      if(!data.products && !data.achats && !data.ventes){
+        showToast('Fichier invalide — pas un backup Mon Magasin', 'error'); return;
+      }
+      if(!confirm(`Restaurer la sauvegarde du ${data.exported||'?'} ?\nCela remplacera toutes vos données actuelles.`)) return;
+      if(Array.isArray(data.products)) DB.set('products', data.products);
+      if(Array.isArray(data.achats))   DB.set('achats',   data.achats);
+      if(Array.isArray(data.ventes))   DB.set('ventes',   data.ventes);
+      if(Array.isArray(data.trash_products)) DB.set('trash_products', data.trash_products);
+      if(Array.isArray(data.trash_achats))   DB.set('trash_achats',   data.trash_achats);
+      if(Array.isArray(data.trash_ventes))   DB.set('trash_ventes',   data.trash_ventes);
+      renderPage('stock');
+      renderDashboard();
+      updateBadges();
+      showToast('Sauvegarde restaurée ✓');
+    } catch(e){
+      showToast('Erreur lecture fichier JSON', 'error');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function downloadBlob(blob, filename){
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 
 // ── PRINT ───────────────────────────────────────────────────────────
